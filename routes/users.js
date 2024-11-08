@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
-const { createUser } = require("../controllers/userController");
+const { createUser,loginUser } = require("../controllers/userController");
 
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
@@ -40,28 +40,47 @@ router.get("/usersList", authAdmin, async (req, res) => {
   }
 })
 
-// create new user.
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         name:
+ *           type: string
+ *           description: The user's name
+ *         email:
+ *           type: string
+ *           description: The user's email
+ *         password:
+ *           type: string
+ *           description: The user's password
+ *       required:
+ *         - name
+ *         - email
+ *         - password
+ * 
+ * /api/users:
+ *   post:
+ *     summary: Register a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       201:
+ *         description: User successfully created
+ *       400:
+ *         description: Validation error
+ */
 router.post("/",createUser);
-// router.post("/", async (req, res) => {
-//   const validBody = validateUser(req.body);
-//   if (validBody.error) {
-//     return res.status(400).json(validBody.error.details);
-//   }
-//   try {
-//     const user = new UserModel(req.body);
-//     user.password = await bcrypt.hash(user.password, 10);
-//     await user.save();
-//     user.password = "*****";
-//     res.status(201).json(user);
-//   }
-//   catch (err) {
-//     if (err.code == 11000) {
-//       return res.status(401).json({ err: "Email already in system", code: 11000 })
-//     }
-//     console.log(err);
-//     res.status(502).json({ err })
-//   }
-// })
+
+// Login user
+router.post("/login", loginUser);
 
 router.post("/login", async (req, res) => {
   const validBody = validateLogin(req.body);
