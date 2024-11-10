@@ -12,14 +12,16 @@ router.get("/", async(req,res) => {
     const category = req.query.category;
     const search = req.query.s;
     const user_id = req.query.user_id;
-    // חיפוש , קטגוריה, יוזר איי די
+
     let filterFind = {}
+
     if(category){
       filterFind = {category_url:category}
     }
     if(search){
+
       const searchExp = new RegExp(search,"i");
-      // יחפש את הביטוי גם בשם וגם באינפו 
+
       filterFind = {$or:[{name:searchExp},{info:searchExp}]}
     }
     if(user_id){
@@ -38,8 +40,7 @@ router.get("/", async(req,res) => {
     res.status(502).json({err})
   }
 })
-// שולף את הכמות, לפי חיפוש,איי די משתמש, קטגוריה של הרשומות
-// חוסך המון משאבים לעומת בקשת פיינד רגילה
+
 router.get("/count", async(req,res) => {
   try{
     const perPage = req.query.perPage || 5;
@@ -52,7 +53,7 @@ router.get("/count", async(req,res) => {
     }
     if(search){
       const searchExp = new RegExp(search,"i");
-      // יחפש את הביטוי גם בשם וגם באינפו 
+
       filterFind = {$or:[{name:searchExp},{info:searchExp}]}
     }
     if(user_id){
@@ -143,11 +144,10 @@ router.delete("/:id", auth, async(req,res) => {
   try{
     const id = req.params.id;
     let data;
-    // בודק אם המשתמש הוא לא יוזר , אל אדמין או סופר אדמין
+
     if(req.tokenData.role != "user"){
       data = await ProductModel.deleteOne({_id:id})
     }
-    // אם לא יבדוק שאכן הרשומה שייכת למשתמש
     else{
       data = await ProductModel.deleteOne({_id:id,user_id:req.tokenData._id})
     }

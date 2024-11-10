@@ -9,6 +9,7 @@ let schema = new mongoose.Schema({
 },{timestamps:true})
 exports.CategoryModel = mongoose.model("categories", schema)
 
+//? seetings validation request
 exports.validateCategory = (_reqBody) => {
   let joiSchema = Joi.object({
     name: Joi.string().min(2).max(400).required(),

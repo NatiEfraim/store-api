@@ -46,7 +46,6 @@ router.put("/:id", authAdmin, async(req,res) => {
   try{
     const id = req.params.id;
     const data = await CategoryModel.updateOne({_id:id},req.body)
-    // modfiedCount:1 - אם הצליח
     res.json(data);
   }
   catch(err){
@@ -59,7 +58,6 @@ router.delete("/:id", authAdmin, async(req,res) => {
   try{
     const id = req.params.id;
     const data = await CategoryModel.deleteOne({_id:id})
-    // deletedCount:1 - אם הצליח
     res.json(data);
   }
   catch(err){

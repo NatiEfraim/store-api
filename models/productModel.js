@@ -9,7 +9,11 @@ let schema = new mongoose.Schema({
   img_url: String,
   user_id: String,
 },{timestamps:true})
+
 exports.ProductModel = mongoose.model("products", schema)
+
+
+//? seetings validation request
 
 exports.validateProduct = (_reqBody) => {
   let joiSchema = Joi.object({
