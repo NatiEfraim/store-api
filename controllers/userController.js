@@ -62,7 +62,7 @@ const loginUser = async (req, res) => {
       }
       
       const token = jwt.sign({ _id: user._id, role: user.role }, config.TOKEN_SECRET, { expiresIn: "1h" });
-      res.cookie("x-api-key", token, {
+      res.cookie("access_token", token, {
         httpOnly: true, // Prevent access via JavaScript
         secure: false, // Set to true if using HTTPS
         maxAge: 60 * 60 * 1000, // 1 hour
@@ -74,8 +74,21 @@ const loginUser = async (req, res) => {
     }
   };
 
+  const getUsersList = async (req, res) => {
+
+  try {
+
+    const data = await UserModel.find({}, { password: 0 }); // Exclude password field
+    res.json(data);
+  } catch (err) {
+    console.error("Error from getUsersList function:", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+  }
+};
+  
 
 module.exports = {
   createUser,
   loginUser,
+  getUsersList,
 };

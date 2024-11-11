@@ -2,11 +2,21 @@ const express = require("express");
 const http = require("http");
 const path = require("path");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
 const fileUpload = require("express-fileupload");
 const { routesInit } = require("./routes/configRoutes");
 require("dotenv").config(); // Ensure environment variables are loaded
 
 const app = express();
+
+try {
+// Middleware to parse cookies
+app.use(cookieParser());
+  console.log("alow the app use in cookieParser");
+} catch (err) {
+  console.error("error from cookie parser:", err.message);
+}
 
 try {
   // Connect to the MongoDB database
@@ -24,6 +34,7 @@ try {
 } catch (err) {
   console.error("CORS initialization failed:", err.message);
 }
+
 
 try {
   // Enable file uploads with specified limits

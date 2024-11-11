@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
-const { createUser,loginUser } = require("../controllers/userController");
+const { createUser,loginUser,getUsersList } = require("../controllers/userController");
 
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
@@ -27,16 +27,23 @@ router.get("/userInfo", auth, async (req, res) => {
   }
 })
 
-router.get("/usersList", authAdmin, async (req, res) => {
-  try {
-    const data = await UserModel.find({}, { password: 0 })
-    res.json(data)
-  }
-  catch (err) {
-    console.log(err);
-    res.status(502).json({ err })
-  }
-})
+// Route for getting the list of users
+router.get("/usersList", authAdmin, getUsersList);
+
+// router.get("/usersList", authAdmin, async (req, res) => {
+
+//   try {
+
+//     const data = await UserModel.find({}, { password: 0 });
+//     res.json(data);
+//   }
+
+//   catch (err) {
+
+//     console.error("error from userList function:", err.message);
+//   }
+// })
+
 
 /**
  * @swagger
