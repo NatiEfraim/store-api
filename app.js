@@ -3,12 +3,16 @@ const http = require("http");
 const path = require("path");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./config/swagger");
 const fileUpload = require("express-fileupload");
 const { routesInit } = require("./routes/configRoutes");
 require("dotenv").config(); // Ensure environment variables are loaded
 
 const app = express();
+
+
+
 
 try {
 // Middleware to parse cookies
@@ -16,6 +20,15 @@ app.use(cookieParser());
   console.log("alow the app use in cookieParser");
 } catch (err) {
   console.error("error from cookie parser:", err.message);
+}
+
+try {
+
+// Middleware to serve Swagger docs
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+  console.log("alow the app use in swaggerUi");
+} catch (err) {
+  console.error("error from swaggerUi:", err.message);
 }
 
 try {
@@ -82,34 +95,11 @@ const server = http.createServer(app);
 try {
   const port = process.env.PORT || 3003; // Define port from environment or default
   server.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+    console.log(`Server running on http://localhost:${port}`);
+    console.log(`API Docs available at http://localhost:${port}/api-docs`);
   });
 } catch (err) {
   console.error("Failed to start server:", err.message);
 }
 
-// const express = require("express");
-// const http = require("http");
-// const path = require("path");
-// const cors = require("cors");
-// const fileUpload = require("express-fileupload")
-// const {routesInit} = require("./routes/configRoutes")
-// require("./db/mongoConnect");
 
-// const app = express();
-// app.use(cors());
-
-// app.use(fileUpload({
-//   limits:{fileSize:"5mb"},
-//   useTempFiles:true
-// }))
-// app.use(express.json({limit:"5mb"}));
-
-// app.use(express.static(path.join(__dirname,"public")));
-
-// routesInit(app);
-
-// const server = http.createServer(app);
-
-// const port = process.env.PORT || 3003;
-// server.listen(port);
