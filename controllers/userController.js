@@ -193,6 +193,37 @@ const loginUser = async (req, res) => {
       res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
     }
 };
+
+/**
+ * Controller to delete a user by ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const deleteUser = async (req, res) => {
+  try {
+    // Extract `id` from the request parameters
+    const { id } = req.params;
+
+    // Check if the admin is trying to delete their own account
+    if (id === req.tokenData._id) {
+      return res.status(401).json({ err: "You can't delete your own account" });
+    }
+
+    // Find the user by ID and delete them
+    const deletedUser = await UserModel.findByIdAndDelete(id);
+
+    // If the user does not exist, return a 404 error
+    if (!deletedUser) {
+      return res.status(404).json({ err: "User not found" });
+    }
+
+    // Send a success message as the response
+    res.json({ msg: "User deleted successfully" });
+  } catch (err) {
+    console.error("Error from deleteUser function:", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+  }
+};
   
 
 module.exports = {
@@ -202,4 +233,5 @@ module.exports = {
   fetchUserInfo,
   decodeToken,
   changeRole,
+  deleteUser
 };

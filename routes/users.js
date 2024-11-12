@@ -7,6 +7,7 @@ const { createUser
   ,getUsersList
   ,fetchUserInfo
   ,decodeToken,
+  deleteUser,
 changeRole,
 } = require("../controllers/userController");
 
@@ -75,10 +76,11 @@ router.post("/",createUser);
 // Login user
 router.post("/login", loginUser);
 
-
 // Route for getting the list of users
 router.put("/changeRole/:id", authAdmin, changeRole);
 
+// Route to delete a user by ID
+router.delete("/:id", authAdmin, deleteUser);
 
 
 router.patch("/updateFavs/", auth, async(req,res) => {
@@ -95,26 +97,13 @@ router.patch("/updateFavs/", auth, async(req,res) => {
   }
 })
 
-router.delete("/:id", authAdmin, async (req, res) => {
-  try {
-    const {id} = req.params;
-    if(id == req.tokenData._id){
-      return res.status(401).json({err:"you cant delete your self"})
-    }
 
-    const data = await UserModel.deleteOne({_id:id,role:{$not:new RegExp("superadmin")}});
-    res.json(data);
-  }
-  catch (err) {
-    console.log(err);
-    res.status(502).json({ err })
-  }
-})
+
 
 module.exports = router;
 
 
-////////////////////////////////monkeis code
+////////////////////////////////monkeis code - need to remove
 // router.post("/login", async (req, res) => {
 //   const validBody = validateLogin(req.body);
 //   if (validBody.error) {
@@ -225,4 +214,20 @@ module.exports = router;
 //     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
 //   }
 
+// })
+
+// router.delete("/:id", authAdmin, async (req, res) => {
+//   try {
+//     const {id} = req.params;
+//     if(id == req.tokenData._id){
+//       return res.status(401).json({err:"you cant delete your self"})
+//     }
+
+//     const data = await UserModel.deleteOne({_id:id,role:{$not:new RegExp("superadmin")}});
+//     res.json(data);
+//   }
+//   catch (err) {
+//     console.log(err);
+//     res.status(502).json({ err })
+//   }
 // })
