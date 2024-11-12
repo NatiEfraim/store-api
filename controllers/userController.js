@@ -29,6 +29,8 @@ const createUser = async (req, res) => {
   } catch (err) {
 
     console.error("error from createUser function:", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+
   }
 };
 
@@ -71,6 +73,8 @@ const loginUser = async (req, res) => {
       res.json({ msg: "Login successful", token });
     } catch (err) {
       console.error("error from login function:", err.message);
+      res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+
     }
   };
 
@@ -85,10 +89,27 @@ const loginUser = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
   }
 };
+  const fetchUserInfo = async (req, res) => {
+
+    try {
+
+      const user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
+      res.json(user).status(200);
+  
+    }
+    catch (err) {
+  
+      console.error("error from fetchUserInfo function:", err.message);
+      
+      res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+  
+    }
+};
   
 
 module.exports = {
   createUser,
   loginUser,
   getUsersList,
+  fetchUserInfo,
 };

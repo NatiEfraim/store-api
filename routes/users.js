@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
-const { createUser,loginUser,getUsersList } = require("../controllers/userController");
+const { createUser,loginUser,getUsersList,fetchUserInfo } = require("../controllers/userController");
 
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
@@ -15,34 +15,13 @@ router.get("/checkToken", auth, async (req,res) => {
   res.json(req.tokenData);
 })
 
-router.get("/userInfo", auth, async (req, res) => {
-  try {
-
-    const user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
-    res.json(user)
-  }
-  catch (err) {
-    console.log(err);
-    res.status(502).json({ err })
-  }
-})
+// Route for getting the info user
+router.get("/userInfo", authAdmin, fetchUserInfo);
 
 // Route for getting the list of users
 router.get("/usersList", authAdmin, getUsersList);
 
-// router.get("/usersList", authAdmin, async (req, res) => {
 
-//   try {
-
-//     const data = await UserModel.find({}, { password: 0 });
-//     res.json(data);
-//   }
-
-//   catch (err) {
-
-//     console.error("error from userList function:", err.message);
-//   }
-// })
 
 
 /**
@@ -82,6 +61,8 @@ router.get("/usersList", authAdmin, getUsersList);
  *       400:
  *         description: Validation error
  */
+
+
 router.post("/",createUser);
 
 // Login user
@@ -163,5 +144,39 @@ module.exports = router;
 //   catch (err) {
 //     console.log(err);
 //     res.status(502).json({ err })
+//   }
+// })
+
+
+// router.get("/usersList", authAdmin, async (req, res) => {
+
+//   try {
+
+//     const data = await UserModel.find({}, { password: 0 });
+//     res.json(data);
+//   }
+
+//   catch (err) {
+
+//     console.error("error from userList function:", err.message);
+//   }
+// })
+
+
+// router.get("/userInfo", auth, async (req, res) => {
+
+
+//   try {
+
+//     const user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
+//     res.json(user)
+
+//   }
+//   catch (err) {
+
+//     console.error("error from userInfo function:", err.message);
+    
+//     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+
 //   }
 // })
