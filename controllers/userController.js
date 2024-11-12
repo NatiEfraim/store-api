@@ -54,6 +54,61 @@ const decodeToken = async (req, res) => {
   }
 };
 
+
+/**
+ * Create a new user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const changeRole = async (req, res) => {
+
+
+  try {
+
+    // Extract `id` from the request parameters
+    const { id } = req.params;
+
+    // Extract `role` from the request body
+    const { role } = req.body;
+
+    // Check if the role is provided in the request body
+    if (!role) {
+      return res.status(400).json({ err: "Role is required in the request body" });
+    }
+
+    // Check if the admin is trying to change their own role
+    if (id === req.tokenData._id) {
+      return res.status(401).json({ err: "You can't change your own role" });
+    }
+
+    // Validate the role parameter
+    const validRoles = ["admin", "user", "superadmin"];
+    if (!validRoles.includes(role)) {
+      return res.status(400).json({ err: "Invalid role specified" });
+    }
+
+    // Find the user by ID and update their role
+    const updatedUser = await UserModel.findByIdAndUpdate(
+      id, // Find user by ID
+      { role }, // Update the `role` field
+      { new: true, runValidators: true } // Return the updated document and apply validations
+    );
+
+    // If the user does not exist, return a 404 error
+    if (!updatedUser) {
+      return res.status(404).json({ err: "User not found" });
+    }
+
+    // Send the updated user data as the response
+    res.json({ msg: "Role updated successfully", user: updatedUser });
+  } catch (err) {
+    console.error("Error from changeUserRole function:", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+  }
+
+
+};
+
 /**
  * log in exist user
  * @param {Object} req - Express request object
@@ -146,4 +201,5 @@ module.exports = {
   getUsersList,
   fetchUserInfo,
   decodeToken,
+  changeRole,
 };
