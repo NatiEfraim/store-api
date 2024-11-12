@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
-const { createUser,loginUser,getUsersList,fetchUserInfo } = require("../controllers/userController");
+const { createUser,loginUser,getUsersList,fetchUserInfo,decodeToken } = require("../controllers/userController");
 
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
@@ -11,9 +11,10 @@ router.get("/", async (req, res) => {
   res.json({ msg: "Users endpoint 14:28" });
 })
 
-router.get("/checkToken", auth, async (req,res) => {
-  res.json(req.tokenData);
-})
+
+
+// Route for get details of user by token.
+router.get("/checkToken", auth, decodeToken);
 
 // Route for getting the info user
 router.get("/userInfo", authAdmin, fetchUserInfo);
@@ -179,4 +180,8 @@ module.exports = router;
 //     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
 
 //   }
+// })
+
+// router.get("/checkToken", auth, async (req,res) => {
+//   res.json(req.tokenData);
 // })

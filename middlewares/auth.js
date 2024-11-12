@@ -16,6 +16,7 @@ exports.auth = (req, res, next) => {
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
     req.tokenData = decodeToken; // Attach decoded token data to request
+    
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     res.status(401).json({ err: "Token invalid or expired" });

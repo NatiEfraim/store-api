@@ -34,6 +34,26 @@ const createUser = async (req, res) => {
   }
 };
 
+
+/**
+ * Create a new user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const decodeToken = async (req, res) => {
+
+  try {
+
+    res.json(req.tokenData);
+
+  } catch (err) {
+
+    console.error("error from decodeToken function:", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+
+  }
+};
+
 /**
  * log in exist user
  * @param {Object} req - Express request object
@@ -78,6 +98,13 @@ const loginUser = async (req, res) => {
     }
   };
 
+
+  /**
+ * Retrecived all users records
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
   const getUsersList = async (req, res) => {
 
   try {
@@ -89,6 +116,13 @@ const loginUser = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
   }
 };
+
+  /**
+ * Retrecived user data by id.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
   const fetchUserInfo = async (req, res) => {
 
     try {
@@ -102,7 +136,6 @@ const loginUser = async (req, res) => {
       console.error("error from fetchUserInfo function:", err.message);
       
       res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
-  
     }
 };
   
@@ -112,4 +145,5 @@ module.exports = {
   loginUser,
   getUsersList,
   fetchUserInfo,
+  decodeToken,
 };
