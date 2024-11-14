@@ -262,6 +262,28 @@ router.post("/",authAdmin,createUser);
 
 router.post("/login", loginUser);
 
+
+/**
+ * @swagger
+ * /auth/logout:
+ *   post:
+ *     summary: Log out the current user
+ *     tags: [Authentication]
+ *     responses:
+ *       200:
+ *         description: Successfully logged out
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Logout successful
+ *       500:
+ *         description: Internal server error
+ */
+
 router.post("/logout",auth, logoutUser);
 
 /**
