@@ -14,7 +14,13 @@ const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
 router.get("/", async (req, res) => {
-  res.json({ msg: "Users endpoint 14:28" });
+  try {
+    res.json({ msg: "Hello from user endpoint" });
+
+  } catch (err) {
+    console.error("Error from index user:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 })
 
 /**

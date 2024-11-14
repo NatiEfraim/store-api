@@ -5,6 +5,16 @@ const { auth, authAdmin } = require("../middlewares/auth");
 const {fetchDrinkList,createDrink,fetchDrinkById,editDrink,deleteById} = require("../controllers/drinkController");
 
 
+router.get("/", async (req, res) => {
+    try {
+      res.json({ msg: "Hello from drinks endpoint" });
+  
+    } catch (err) {
+      console.error("Error from index user:", err.message);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  })
+
 /**
  * @swagger
  * /drinks:
