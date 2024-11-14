@@ -3,14 +3,13 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
 const { createUser
-  ,loginUser
   ,getUsersList
   ,fetchUserInfo
   ,decodeToken,
   deleteUser,
 changeRole,
 } = require("../controllers/userController");
-
+const {loginUser,logoutUser} =require("../controllers/authController");
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
@@ -221,7 +220,7 @@ router.post("/",authAdmin,createUser);
  * /users/login:
  *   post:
  *     summary: Log in an existing user
- *     tags: [User]
+ *     tags: [Authentication]
  *     requestBody:
  *       required: true
  *       content:
@@ -262,6 +261,8 @@ router.post("/",authAdmin,createUser);
  */
 
 router.post("/login", loginUser);
+
+router.post("/logout",auth, logoutUser);
 
 /**
  * @swagger
