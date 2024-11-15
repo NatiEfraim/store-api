@@ -5,6 +5,13 @@ const { auth, authAdmin } = require("../middlewares/auth");
 const {fetchDrinkList,createDrink,fetchDrinkById,editDrink,deleteById} = require("../controllers/drinkController");
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: Drink
+ *   description: Drink management API
+ */
+
 router.get("/", async (req, res) => {
     try {
       res.json({ msg: "Hello from drinks endpoint" });

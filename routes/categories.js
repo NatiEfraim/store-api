@@ -9,6 +9,12 @@ const { authAdmin,auth } = require("../middlewares/auth");
 const router = express.Router();
 
 
+/**
+ * @swagger
+ * tags:
+ *   name: Category
+ *   description: Category management API
+ */
 
 
 router.get("/", async (req, res) => {

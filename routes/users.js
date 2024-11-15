@@ -13,6 +13,23 @@ const {loginUser,logoutUser} =require("../controllers/authController");
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
+
+
+/**
+ * @swagger
+ * tags:
+ *   name: User
+ *   description: User management API
+ */
+
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: Authentication management API
+ */
+
+
 router.get("/", async (req, res) => {
   try {
     res.json({ msg: "Hello from user endpoint" });
