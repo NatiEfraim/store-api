@@ -1,4 +1,30 @@
 const { ProductModel, validateProduct } = require("../models/productModel");
+const { getUserById } = require("../utils/userUtils");
+
+
+
+
+/**
+ * Example function to fetch user data by user_id
+ */
+const fetchUserDetails = async (req, res) => {
+
+    try {
+        const { user_id } = req.params; // Extract user_id from request parameters
+  
+        const user = await getUserById(user_id);
+      
+        if (user.error) {
+          return res.status(404).json(user); // Return error if user is not found
+        }
+      
+        res.status(200).json(user); // Return user data
+    } catch (error) {
+        console.error("Error from fetchUserDetails:", err.message);
+        res.status(500).json({ error: "Internal Server Error" });
+    }
+  
+  };
 
 /**
  * Get all products with pagination and filtering
@@ -114,4 +140,5 @@ module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  fetchUserDetails,
 };

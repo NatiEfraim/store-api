@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { auth, authAdmin } = require("../middlewares/auth");
+const { fetchUserDetails } = require("../controllers/productController");
+
 const {
   getProducts,
   getProductById,
@@ -8,6 +10,13 @@ const {
   updateProduct,
   deleteProduct,
 } = require("../controllers/productController");
+
+
+
+/**
+ * Fetch user details by user_id
+ */
+router.get("/user/:user_id", fetchUserDetails);
 
 // Fetch all products with pagination and filtering
 router.get("/", getProducts);
