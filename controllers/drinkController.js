@@ -14,14 +14,16 @@ const { DrinkModel, validateCreateDrink, validateEditDrink } = require("../model
             res.status(200).json(drinks);
           } catch (err) {
             console.error("Error from getDrinks:", err.message);
-            res.status(500).json({ error: "Internal Server Error" });
           }
+          res.status(500).json({ error: "Internal Server Error" });
                
 
   };
 
   /**
- * Fetch a drink by ID
+ * Fetch drink record by id.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const fetchDrinkById = async (req, res) => {
     try {
@@ -35,15 +37,22 @@ const fetchDrinkById = async (req, res) => {
       res.status(200).json(drink);
     } catch (err) {
       console.error("Error from fetchDrinkById:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
     }
+    res.status(500).json({ error: "Internal Server Error" });
   };
 
-/**
- * Edit a drink by ID
+  /**
+ * Edit exsist drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
+
+
 const editDrink = async (req, res) => {
+
+
     try {
+
       const { id } = req.params;
       const { error } = validateEditDrink(req.body);
       if (error) {
@@ -59,7 +68,8 @@ const editDrink = async (req, res) => {
         return res.status(404).json({ error: "Drink not found" });
       }
   
-      res.status(200).json(updatedDrink);
+      res.status(200).json({msg:"category updated successful"});
+      
     } catch (err) {
       console.error("Error from editDrink:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
@@ -68,9 +78,13 @@ const editDrink = async (req, res) => {
   
 
   /**
- * Create a new drink
+ * create drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const createDrink = async (req, res) => {
+
+
     try {
       const { error } = validateCreateDrink(req.body);
       if (error) {
@@ -80,11 +94,13 @@ const createDrink = async (req, res) => {
       const newDrink = new DrinkModel(req.body);
       await newDrink.save();
   
-      res.status(201).json(newDrink);
+      res.json({msg:"Drink saved successful in the system."});
     } catch (err) {
       console.error("Error from createDrink:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
     }
+    res.status(500).json({ error: "Internal Server Error" });
+
+
   };
 
 
@@ -103,8 +119,8 @@ const deleteById = async (req, res) => {
       res.status(200).json({ msg: "Drink deleted successfully" });
     } catch (err) {
       console.error("Error from deleteById:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
     }
+    res.status(500).json({ error: "Internal Server Error" });
   };
 
   module.exports = {

@@ -29,13 +29,66 @@ const router = express.Router();
         res.json(data);
       }
       catch(err){
-        console.log("Error from fetchCategoriesList:",err);
-        res.status(502).json({err})
-      }
+        console.log("Error from fetchCategoriesList:",err.message);
+    }
+    res.status(500).json({ error: "Internal Server Error" });
            
 
 };
 
+
+  /**
+ * create drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+  const createCategory = async (req, res) => {
+    
+    const validBody = validateCategory(req.body);
+    if(validBody.error){
+      return res.status(400).json(validBody.error.details)
+    }
+    try{
+      const category = new CategoryModel(req.body);
+      await category.save();
+      res.json({msg:"Category saved successful in the system."});
+    }
+    catch(err){
+        console.log("Error from createCategory:",err.message);
+    }
+    res.status(500).json({ error: "Internal Server Error" });
+};
+
+
+  /**
+ * Edit exsist drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
+
+  const editCategory = async (req, res) => {
+   const validBody = validateCategory(req.body);
+  if(validBody.error){
+     return res.status(400).json(validBody.error.details)
+  }
+  try{
+    const id = req.params.id;
+    const data = await CategoryModel.updateOne({_id:id},req.body)
+    res.status(200).json({msg:"Category updated successfuly in the system"});
+   }
+    catch(err){
+    console.log("Error from editCategory:",err.message);
+    }
+    res.status(500).json({ error: "Internal Server Error" });
+
+  };
+  
+
+
+
 module.exports = {
-    fetchCategoriesList
+    fetchCategoriesList,
+    createCategory,
+    editCategory,
   };
