@@ -84,11 +84,34 @@ const router = express.Router();
 
   };
   
+  /**
+ * create drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+  const deleteById = async (req, res) => {
+    try{
+        const id = req.params.id;
+        const data = await CategoryModel.deleteOne({_id:id})
+     
+        const {deletedCount} = data;
+        if (!deletedCount) {
+            res.status(400).json({msg:"Category not exsist in the system"});
 
+        }
+        res.status(200).json({msg:"Category deleted successfuly in the system"});
+    }
+      catch(err){
+        console.log("Error from editCategory:",err.message);
+    }
+    res.status(500).json({ error: "Internal Server Error" });
+    
+  };
 
 
 module.exports = {
     fetchCategoriesList,
     createCategory,
     editCategory,
+    deleteById,
   };

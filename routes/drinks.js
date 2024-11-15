@@ -20,7 +20,7 @@ router.get("/", async (req, res) => {
  * /drinks:
  *   get:
  *     summary: Retrieve a list of all drinks
- *     tags: [Drinks]
+ *     tags: [Drink]
  *     responses:
  *       200:
  *         description: Successfully retrieved the list of drinks
@@ -61,7 +61,7 @@ router.get("/",auth ,fetchDrinkList);
  * /drinks/{id}:
  *   get:
  *     summary: Fetch a drink by ID
- *     tags: [Drinks]
+ *     tags: [Drink]
  *     parameters:
  *       - in: path
  *         name: id
@@ -85,7 +85,7 @@ router.get("/:id",auth, fetchDrinkById);
  * /drinks/{id}:
  *   put:
  *     summary: Edit a drink by ID
- *     tags: [Drinks]
+ *     tags: [Drink]
  *     parameters:
  *       - in: path
  *         name: id
@@ -124,7 +124,7 @@ router.put("/:id",authAdmin, editDrink);
  * /drinks:
  *   post:
  *     summary: Create a new drink
- *     tags: [Drinks]
+ *     tags: [Drink]
  *     requestBody:
  *       required: true
  *       content:
@@ -160,7 +160,7 @@ router.post("/",authAdmin, createDrink);
  * /drinks/{id}:
  *   delete:
  *     summary: Delete a drink by ID
- *     tags: [Drinks]
+ *     tags: [Drink]
  *     parameters:
  *       - in: path
  *         name: id

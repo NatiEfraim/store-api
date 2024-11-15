@@ -105,7 +105,9 @@ const createDrink = async (req, res) => {
 
 
   /**
- * Delete a drink by ID
+ * create drink record in storage.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const deleteById = async (req, res) => {
     try {

@@ -1,6 +1,10 @@
 const express = require("express");
 const {CategoryModel,validateCategory} = require("../models/categoryModel");
-const {fetchCategoriesList,createCategory,editCategory} =require("../controllers/categoriesController");
+const {fetchCategoriesList,
+  createCategory,
+  editCategory,
+  deleteById
+} =require("../controllers/categoriesController");
 const { authAdmin,auth } = require("../middlewares/auth");
 const router = express.Router();
 
@@ -262,17 +266,61 @@ router.put("/:id",authAdmin,editCategory);
 
 
 
-router.delete("/:id", authAdmin, async(req,res) => {
-  try{
-    const id = req.params.id;
-    const data = await CategoryModel.deleteOne({_id:id})
-    res.json(data);
-  }
-  catch(err){
-    console.log(err);
-    res.status(502).json({err})
-  }
-})
+
+/**
+ * @swagger
+ * /categories/{id}:
+ *   delete:
+ *     summary: Delete a category by ID
+ *     tags: [Category]
+ *     security:
+ *       - bearerAuth: [] # Optional if JWT is used for this endpoint
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the category to delete
+ *     responses:
+ *       200:
+ *         description: Successfully deleted the category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   description: Success message
+ *                   example: Category deleted successfully in the system
+ *       400:
+ *         description: Category does not exist in the system
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Category not exist in the system
+ *       500:
+ *         description: Internal server error while deleting the category
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   description: Error message
+ *                   example: Internal Server Error
+ */
+
+router.delete("/:id", authAdmin, deleteById);
+
+
 
 module.exports = router;
 
@@ -322,6 +370,18 @@ module.exports = router;
 //   try{
 //     const id = req.params.id;
 //     const data = await CategoryModel.updateOne({_id:id},req.body)
+//     res.json(data);
+//   }
+//   catch(err){
+//     console.log(err);
+//     res.status(502).json({err})
+//   }
+// })
+
+// router.delete("/:id", authAdmin, async(req,res) => {
+//   try{
+//     const id = req.params.id;
+//     const data = await CategoryModel.deleteOne({_id:id})
 //     res.json(data);
 //   }
 //   catch(err){
