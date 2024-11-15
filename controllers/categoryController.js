@@ -37,26 +37,32 @@ const router = express.Router();
 };
 
 
-  /**
- * create drink record in storage.
+
+/**
+ * Create a new category in the system
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
-  const createCategory = async (req, res) => {
-    
-    const validBody = validateCategory(req.body);
-    if(validBody.error){
-      return res.status(400).json(validBody.error.details)
-    }
-    try{
-      const category = new CategoryModel(req.body);
-      await category.save();
-      res.json({msg:"Category saved successful in the system."});
-    }
-    catch(err){
-        console.log("Error from createCategory:",err.message);
-    }
+const createCategory = async (req, res) => {
+  const validBody = validateCategory(req.body);
+
+  // Validate the incoming request body
+  if (validBody.error) {
+    return res.status(400).json(validBody.error.details);
+  }
+
+  try {
+    const category = new CategoryModel(req.body);
+    await category.save();
+
+    // Send a success response
+    res.json({ msg: "Category saved successfully in the system." });
+  } catch (err) {
+    console.error("Error from createCategory:", err.message);
+
+    // Send an error response in case of failure
     res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 

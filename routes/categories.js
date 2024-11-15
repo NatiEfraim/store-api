@@ -4,7 +4,7 @@ const {fetchCategoriesList,
   createCategory,
   editCategory,
   deleteById
-} =require("../controllers/categoriesController");
+} =require("../controllers/categoryController");
 const { authAdmin,auth } = require("../middlewares/auth");
 const router = express.Router();
 
