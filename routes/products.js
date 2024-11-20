@@ -9,6 +9,7 @@ const {
   createProduct,
   updateProduct,
   deleteProduct,
+  getProductByUserId,
 } = require("../controllers/productController");
 
 /**
@@ -56,6 +57,91 @@ const {
  */
 
 router.get("/user/:user_id", fetchUserDetails);
+
+
+/**
+ * @swagger
+ * /products/by-user/{user_id}:
+ *   get:
+ *     summary: Get all products created by a specific user
+ *     tags: [Products]
+ *     parameters:
+ *       - in: path
+ *         name: user_id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the user
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the user's products
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: Product ID
+ *                     example: 6461f281ddc83b428bd83f2e
+ *                   name:
+ *                     type: string
+ *                     description: Product name
+ *                     example: ASUS F15
+ *                   info:
+ *                     type: string
+ *                     description: Product details
+ *                     example: ASUS F15, BEST LAPTOP EVER!
+ *                   price:
+ *                     type: number
+ *                     description: Product price
+ *                     example: 5000
+ *                   category_url:
+ *                     type: string
+ *                     description: Product category URL
+ *                     example: laptops
+ *                   img_url:
+ *                     type: string
+ *                     description: Product image URL
+ *                     example: https://images.example.com/1.jpg
+ *                   user_id:
+ *                     type: string
+ *                     description: User ID
+ *                     example: 644f62551ca3e1d6d878dc12
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *       404:
+ *         description: No products found for this user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: No products found for this user.
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+router.get("/by-user/:user_id", auth, getProductByUserId);
+
+
+
+
 
 /**
  * @swagger

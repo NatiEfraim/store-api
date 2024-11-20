@@ -67,6 +67,31 @@ const getProductById = async (req, res) => {
   }
 };
 
+
+/**
+ * Get all products by user_id
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getProductByUserId = async (req, res) => {
+  const { user_id } = req.params; // Extract user_id from the request parameters
+
+  try {
+    // Find all products that match the given user_id
+    const products = await ProductModel.find({ user_id });
+
+    if (!products.length) {
+      return res.status(404).json({ msg: "No products found for this user." });
+    }
+
+    res.status(200).json(products); // Return the list of products
+  } catch (err) {
+    console.error("Error from getProductsByUserId:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
 /**
  * Create a new product
  */
@@ -141,4 +166,5 @@ module.exports = {
   updateProduct,
   deleteProduct,
   fetchUserDetails,
+  getProductByUserId,
 };
