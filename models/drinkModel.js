@@ -36,7 +36,7 @@ const validateCreateDrink = (data) => {
     name: Joi.string().required().min(1).max(100).label("Name"),
     ml: Joi.string().required().label("Milliliters"),
     price: Joi.number().required().min(0).label("Price"),
-    user_id: Joi.string().required(),
+    // user_id: Joi.string().required(),
   });
   return schema.validate(data);
 };

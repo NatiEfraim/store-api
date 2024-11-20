@@ -2,7 +2,13 @@
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
 
-// Middleware for authenticating users via token stored in cookies
+
+  /**
+ * // Middleware for authenticating users via token stored in cookies
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
 const auth = (req, res, next) => {
 
 
@@ -23,7 +29,13 @@ const auth = (req, res, next) => {
   }
 };
 
-// Middleware for admin-only access via token stored in cookies
+
+    /**
+ *  Middleware for admin-only access via token stored in cookies
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
 const authAdmin = (req, res, next) => {
   
   try {
@@ -46,9 +58,31 @@ const authAdmin = (req, res, next) => {
   }
 };
 
+  /**
+ * // Function to get the authenticated user's ID
+ * @param {Object} req - Express request object
+ * @returns {Object|null}
+ */
+
+
+const getAuthenticatedUser = (req) => {
+  try {
+    if (!req.tokenData || !req.tokenData._id) {
+      // throw new Error("User not authenticated");
+      return null;
+    }
+    return req.tokenData._id; // Return the authenticated user's ID
+  } catch (err) {
+    console.error("Error from getAuthenticatedUser:", err.message);
+    return null; // Return null if authentication fails
+  }
+};
+
+
 module.exports = {
   authAdmin,
   auth,
+  getAuthenticatedUser,
 };
 
 

@@ -1,4 +1,5 @@
 const { DrinkModel, validateCreateDrink, validateEditDrink } = require("../models/drinkModel");
+const { getAuthenticatedUser } = require("../middlewares/auth");
 
   /**
  * Retrecived all drinks records
@@ -86,12 +87,19 @@ const createDrink = async (req, res) => {
 
 
     try {
+      
       const { error } = validateCreateDrink(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
-  
-      const newDrink = new DrinkModel(req.body);
+        // Get the authenticated user's ID
+    const userId = getAuthenticatedUser(req);
+
+    if (!userId) {
+      return res.status(401).json({ err: "User not authenticated" });
+    }
+            // Create a new drink with the authenticated user's ID
+    const newDrink = new DrinkModel({ ...req.body, user_id: userId });
       await newDrink.save();
   
       res.json({msg:"Drink saved successful in the system."});
