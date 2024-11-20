@@ -24,7 +24,7 @@ router.get("/", async (req, res) => {
 
 /**
  * @swagger
- * /drinks:
+ * /drinks/index:
  *   get:
  *     summary: Retrieve a list of all drinks
  *     tags: [Drink]
@@ -59,7 +59,7 @@ router.get("/", async (req, res) => {
  */
 
 
-router.get("/",auth ,fetchDrinkList);
+router.get("/index",auth ,fetchDrinkList);
 
 
 

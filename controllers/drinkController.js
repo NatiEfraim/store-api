@@ -14,8 +14,8 @@ const { DrinkModel, validateCreateDrink, validateEditDrink } = require("../model
             res.status(200).json(drinks);
           } catch (err) {
             console.error("Error from getDrinks:", err.message);
+            res.status(500).json({ error: "Internal Server Error" });
           }
-          res.status(500).json({ error: "Internal Server Error" });
                
 
   };
@@ -37,8 +37,8 @@ const fetchDrinkById = async (req, res) => {
       res.status(200).json(drink);
     } catch (err) {
       console.error("Error from fetchDrinkById:", err.message);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(500).json({ error: "Internal Server Error" });
   };
 
   /**
@@ -97,8 +97,8 @@ const createDrink = async (req, res) => {
       res.json({msg:"Drink saved successful in the system."});
     } catch (err) {
       console.error("Error from createDrink:", err.message);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(500).json({ error: "Internal Server Error" });
 
 
   };
@@ -121,8 +121,8 @@ const deleteById = async (req, res) => {
       res.status(200).json({ msg: "Drink deleted successfully" });
     } catch (err) {
       console.error("Error from deleteById:", err.message);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(500).json({ error: "Internal Server Error" });
   };
 
   module.exports = {

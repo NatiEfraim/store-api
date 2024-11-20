@@ -15,7 +15,7 @@ const {
 /**
  * @swagger
  * tags:
- *   name: Products
+ *   name: Product
  *   description: Product management API
  */
 
@@ -25,7 +25,7 @@ const {
  * /products/user/{user_id}:
  *   get:
  *     summary: Fetch user details by user_id
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: user_id
@@ -64,7 +64,7 @@ router.get("/user/:user_id", fetchUserDetails);
  * /products/by-user/{user_id}:
  *   get:
  *     summary: Get all products created by a specific user
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: user_id
@@ -148,7 +148,7 @@ router.get("/by-user/:user_id", auth, getProductByUserId);
  * /products:
  *   get:
  *     summary: Get all products with pagination and filtering
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: query
  *         name: perPage
@@ -196,7 +196,7 @@ router.get("/", getProducts);
  * /products/{id}:
  *   get:
  *     summary: Fetch a single product by ID
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id
@@ -222,7 +222,7 @@ router.get("/:id", getProductById);
  * /products:
  *   post:
  *     summary: Create a new product
- *     tags: [Products]
+ *     tags: [Product]
  *     requestBody:
  *       required: true
  *       content:
@@ -265,7 +265,7 @@ router.post("/", auth, createProduct);
  * /products/{id}:
  *   put:
  *     summary: Update an existing product by ID
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id
@@ -318,7 +318,7 @@ router.put("/:id", auth, updateProduct);
  * /products/{id}:
  *   delete:
  *     summary: Delete a product by ID
- *     tags: [Products]
+ *     tags: [Product]
  *     parameters:
  *       - in: path
  *         name: id

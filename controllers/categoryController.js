@@ -30,8 +30,8 @@ const router = express.Router();
       }
       catch(err){
         console.log("Error from fetchCategoriesList:",err.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(500).json({ error: "Internal Server Error" });
            
 
 };
@@ -85,8 +85,8 @@ const createCategory = async (req, res) => {
    }
     catch(err){
     console.log("Error from editCategory:",err.message);
-    }
     res.status(500).json({ error: "Internal Server Error" });
+    }
 
   };
   
@@ -109,8 +109,8 @@ const createCategory = async (req, res) => {
     }
       catch(err){
         console.log("Error from editCategory:",err.message);
+        res.status(500).json({ error: "Internal Server Error" });
     }
-    res.status(500).json({ error: "Internal Server Error" });
     
   };
 
