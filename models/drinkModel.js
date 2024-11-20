@@ -55,27 +55,3 @@ module.exports = {
 
 
 
-// const mongoose = require("mongoose");
-
-// const drinkSchema = new mongoose.Schema(
-//   {
-//     name: {
-//       type: String,
-//       required: true,
-//       trim: true,
-//     },
-//     ml: {
-//       type: String,
-//       required: true,
-//     },
-//     price: {
-//       type: Number,
-//       required: true,
-//     },
-//   },
-//   {
-//     timestamps: true, // Automatically add createdAt and updatedAt fields
-//   }
-// );
-
-// module.exports = mongoose.model("Drink", drinkSchema);
