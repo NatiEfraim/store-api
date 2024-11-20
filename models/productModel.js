@@ -49,7 +49,7 @@ const validateProduct = (data) => {
     price: Joi.number().min(0).required(),
     category_url: Joi.string().min(2).max(400).required(),
     img_url: Joi.string().uri().required(),
-    user_id: Joi.string().required(),
+    // user_id: Joi.string().required(),
   });
   return schema.validate(data);
 };

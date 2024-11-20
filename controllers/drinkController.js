@@ -87,19 +87,19 @@ const createDrink = async (req, res) => {
 
 
     try {
-      
+
       const { error } = validateCreateDrink(req.body);
       if (error) {
         return res.status(400).json({ error: error.details[0].message });
       }
-        // Get the authenticated user's ID
-    const userId = getAuthenticatedUser(req);
-
-    if (!userId) {
+    // Get the authenticated user's ID
+    const userData = getAuthenticatedUser(req);
+    const {_id,role} =userData;//destruct what needed.
+    if (!_id) {
       return res.status(401).json({ err: "User not authenticated" });
     }
-            // Create a new drink with the authenticated user's ID
-    const newDrink = new DrinkModel({ ...req.body, user_id: userId });
+            // Create a new drink with the authenticated user's id
+    const newDrink = new DrinkModel({ ...req.body, user_id: _id });
       await newDrink.save();
   
       res.json({msg:"Drink saved successful in the system."});

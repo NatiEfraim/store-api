@@ -1,5 +1,6 @@
 const { ProductModel, validateProduct } = require("../models/productModel");
 const { getUserById } = require("../utils/userUtils");
+const { getAuthenticatedUser } = require("../middlewares/auth");
 
 
 
@@ -91,20 +92,34 @@ const getProductByUserId = async (req, res) => {
   }
 };
 
-
 /**
  * Create a new product
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
-const createProduct = async (req, res) => {
-  const { error } = validateProduct(req.body);
-  if (error) {
-    return res.status(400).json({ error: error.details });
-  }
 
+const createProduct = async (req, res) => {
+  
   try {
-    const product = new ProductModel(req.body);
+
+    const { error } = validateProduct(req.body);
+    if (error) {
+      return res.status(400).json({ error: error.details });
+    }
+
+
+    // Get the authenticated user's ID
+    const userData = getAuthenticatedUser(req);
+    const {_id,role} =userData;//destruct what needed.
+    if (!_id) {
+      return res.status(401).json({ err: "User not authenticated" });
+    }
+
+    const product = new ProductModel({ ...req.body, user_id: _id });
+
     await product.save();
-    res.status(201).json({ msg: "Product created successfully", product });
+
+    res.status(201).json({ msg: "Product created successfully"});
   } catch (err) {
     console.error("Error from createProduct:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
