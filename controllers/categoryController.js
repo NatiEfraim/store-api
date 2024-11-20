@@ -1,5 +1,5 @@
 const express = require("express");
-const {CategoryModel,validateCategory} = require("../models/categoryModel");
+const {CategoryModel,validateCategory,validateEditCategory} = require("../models/categoryModel");
 const { authAdmin,auth } = require("../middlewares/auth");
 const router = express.Router();
 
@@ -44,14 +44,17 @@ const router = express.Router();
  * @param {Object} res - Express response object
  */
 const createCategory = async (req, res) => {
-  const validBody = validateCategory(req.body);
-
-  // Validate the incoming request body
-  if (validBody.error) {
-    return res.status(400).json(validBody.error.details);
-  }
-
+  
   try {
+
+
+    const validBody = validateCategory(req.body);
+  
+    // Validate the incoming request body
+    if (validBody.error) {
+      return res.status(400).json(validBody.error.details);
+    }
+
     const category = new CategoryModel(req.body);
     await category.save();
 
@@ -74,16 +77,27 @@ const createCategory = async (req, res) => {
 
 
   const editCategory = async (req, res) => {
-   const validBody = validateCategory(req.body);
-  if(validBody.error){
-     return res.status(400).json(validBody.error.details)
-  }
-  try{
-    const id = req.params.id;
+
+    try{
+      const id = req.params.id;
+
+      if (!id) {
+        return res.status(400).json({msg:"id of category must recived"})
+      }
+
+    const validBody = validateEditCategory(req.body);
+   if(validBody.error){
+      return res.status(400).json(validBody.error.details)
+   }
+
+
     const data = await CategoryModel.updateOne({_id:id},req.body)
+    
     res.status(200).json({msg:"Category updated successfuly in the system"});
+
    }
     catch(err){
+
     console.log("Error from editCategory:",err.message);
     res.status(500).json({ error: "Internal Server Error" });
     }

@@ -24,7 +24,7 @@ const createUser = async (req, res) => {
     await user.save();
     // Mask the password in the response
     user.password = "*****";
-    res.status(201).json(user);
+    res.status(201).json({msg:"User has been added successfuly in the system"});
 
   } catch (err) {
 

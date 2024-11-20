@@ -71,7 +71,6 @@ const getAuthenticatedUser = (req) => {
       // throw new Error("User not authenticated");
       return null;
     }
-    console.log("msg from getAuthenticatedUser ",req.tokenData);
     return req.tokenData; // Return the authenticated user's ID
     
   } catch (err) {
