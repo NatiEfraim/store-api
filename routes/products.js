@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const { auth, authAdmin } = require("../middlewares/auth");
-const { fetchUserDetails } = require("../controllers/productController");
 
 const {
   getProducts,
@@ -10,6 +9,7 @@ const {
   updateProduct,
   deleteProduct,
   getProductByUserId,
+  fetchUserDetails
 } = require("../controllers/productController");
 
 /**

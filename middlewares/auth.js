@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
 
 // Middleware for authenticating users via token stored in cookies
-exports.auth = (req, res, next) => {
+const auth = (req, res, next) => {
 
 
   try {
@@ -24,7 +24,7 @@ exports.auth = (req, res, next) => {
 };
 
 // Middleware for admin-only access via token stored in cookies
-exports.authAdmin = (req, res, next) => {
+const authAdmin = (req, res, next) => {
   
   try {
 
@@ -46,7 +46,10 @@ exports.authAdmin = (req, res, next) => {
   }
 };
 
-
+module.exports = {
+  authAdmin,
+  auth,
+};
 
 
 
