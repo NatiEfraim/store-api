@@ -271,10 +271,6 @@ router.post("/",authAdmin,createUser);
  *                   type: string
  *                   description: Login status message
  *                   example: Login successful
- *                 token:
- *                   type: string
- *                   description: JWT token for authentication
- *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
  *       400:
  *         description: Bad request, invalid input
  *       401:

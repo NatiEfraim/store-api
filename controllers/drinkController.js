@@ -125,11 +125,36 @@ const deleteById = async (req, res) => {
     }
   };
 
+  /**
+ * Get all products by user_id
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getDrinksByUserId = async (req, res) => {
+  const { user_id } = req.params; // Extract user_id from the request parameters
+
+  try {
+    // Find all drinks that match the given user_id
+    const drinks = await DrinkModel.find({ user_id });
+
+    if (!drinks.length) {
+      return res.status(404).json({ msg: "No drinks found for this user." });
+    }
+
+    res.status(200).json(drinks); // Return the list of drinks
+  } catch (err) {
+    console.error("Error from getDrinksByUserId:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+
   module.exports = {
     createDrink,
     fetchDrinkList,
     fetchDrinkById,
     editDrink,
     deleteById,
+    getDrinksByUserId,
 
   };

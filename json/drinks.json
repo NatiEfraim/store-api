@@ -4,28 +4,59 @@
   },
   "name": "Cola Pepsi",
   "ml": "330",
-  "price": 8
+  "user_id": "644f62551ca3e1d6d878dc12",
+  "price": 8,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "__v": 0
 },{
   "_id": {
     "$oid": "643cf4a05cf276f8b63f5236"
   },
   "name": "Black coffee",
   "ml": "250",
-  "price": 7
+  "user_id": "644f62551ca3e1d6d878dc12",
+  "price": 7,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "__v": 0
 },{
   "_id": {
     "$oid": "643cf4a05cf276f8b63f5237"
   },
   "name": "Green Tea",
   "ml": "500",
-  "price": 10
+  "user_id": "644f62551ca3e1d6d878dc12",
+  "price": 10,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "__v": 0
 },{
   "_id": {
     "$oid": "643d06613dfc82573bb9c9f5"
   },
   "name": "Sprite",
   "ml": 330,
+  "user_id": "644f62551ca3e1d6d878dc12",
   "price": 9,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
   "__v": 0
 },{
   "_id": {
@@ -33,7 +64,14 @@
   },
   "name": "Fanta bottle 2",
   "ml": 500,
+  "user_id": "644f62551ca3e1d6d878dc12",
   "price": 9,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
   "__v": 0
 },{
   "_id": {
@@ -41,7 +79,14 @@
   },
   "name": "Soda",
   "ml": 330,
+  "user_id": "644f62551ca3e1d6d878dc12",
   "price": 7,
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
   "__v": 0
 },{
   "_id": {
@@ -50,5 +95,12 @@
   "name": "Beer Corona",
   "ml": 330,
   "price": 15,
+  "user_id": "644f62551ca3e1d6d878dc12",
+  "createdAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
+  "updatedAt": {
+    "$date": "2023-05-15T08:51:13.801Z"
+  },
   "__v": 0
 }]

@@ -11,11 +11,18 @@ const drinkSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "User",
+  },
   price: {
     type: Number,
     required: true,
   },
-});
+  
+},  { timestamps: true } // Automatically add createdAt and updatedAt fields
+);
 
 const DrinkModel = mongoose.model("Drink", drinkSchema);
 
@@ -29,6 +36,7 @@ const validateCreateDrink = (data) => {
     name: Joi.string().required().min(1).max(100).label("Name"),
     ml: Joi.string().required().label("Milliliters"),
     price: Joi.number().required().min(0).label("Price"),
+    user_id: Joi.string().required(),
   });
   return schema.validate(data);
 };
