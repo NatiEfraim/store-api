@@ -21,7 +21,7 @@ const fetchUserDetails = async (req, res) => {
       
         res.status(200).json(user); // Return user data
     } catch (error) {
-        console.error("Error from fetchUserDetails:", err.message);
+        console.error("Error from fetchUserDetails function:", err.message);
         res.status(500).json({ error: "Internal Server Error" });
     }
   
@@ -44,7 +44,7 @@ const getProducts = async (req, res) => {
 
     res.status(200).json(products);
   } catch (err) {
-    console.error("Error from getProducts:", err.message);
+    console.error("Error from getProducts function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -63,7 +63,7 @@ const getProductById = async (req, res) => {
 
     res.status(200).json(product);
   } catch (err) {
-    console.error("Error from getProductById:", err.message);
+    console.error("Error from getProductById function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -87,7 +87,7 @@ const getProductByUserId = async (req, res) => {
 
     res.status(200).json(products); // Return the list of products
   } catch (err) {
-    console.error("Error from getProductsByUserId:", err.message);
+    console.error("Error from getProductsByUserId function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -121,7 +121,7 @@ const createProduct = async (req, res) => {
 
     res.status(201).json({ msg: "Product created successfully"});
   } catch (err) {
-    console.error("Error from createProduct:", err.message);
+    console.error("Error from createProduct function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -149,7 +149,7 @@ const updateProduct = async (req, res) => {
 
     res.status(200).json({ msg: "Product updated successfully", product: updatedProduct });
   } catch (err) {
-    console.error("Error from updateProduct:", err.message);
+    console.error("Error from updateProduct function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
@@ -169,7 +169,7 @@ const deleteProduct = async (req, res) => {
 
     res.status(200).json({ msg: "Product deleted successfully" });
   } catch (err) {
-    console.error("Error from deleteProduct:", err.message);
+    console.error("Error from deleteProduct function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

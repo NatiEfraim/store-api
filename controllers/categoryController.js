@@ -1,7 +1,7 @@
 const express = require("express");
 const {CategoryModel,validateCategory,validateEditCategory} = require("../models/categoryModel");
-const { authAdmin,auth } = require("../middlewares/auth");
-const router = express.Router();
+// const { authAdmin,auth } = require("../middlewares/auth");
+// const router = express.Router();
 
 
 
@@ -29,7 +29,7 @@ const router = express.Router();
         res.json(data);
       }
       catch(err){
-        console.log("Error from fetchCategoriesList:",err.message);
+        console.log("Error from fetchCategoriesList function:",err.message);
         res.status(500).json({ error: "Internal Server Error" });
     }
            
@@ -61,7 +61,7 @@ const createCategory = async (req, res) => {
     // Send a success response
     res.json({ msg: "Category saved successfully in the system." });
   } catch (err) {
-    console.error("Error from createCategory:", err.message);
+    console.error("Error from createCategory function:", err.message);
 
     // Send an error response in case of failure
     res.status(500).json({ error: "Internal Server Error" });
@@ -98,7 +98,7 @@ const createCategory = async (req, res) => {
    }
     catch(err){
 
-    console.log("Error from editCategory:",err.message);
+    console.log("Error from editCategory function:",err.message);
     res.status(500).json({ error: "Internal Server Error" });
     }
 
@@ -122,7 +122,7 @@ const createCategory = async (req, res) => {
         res.status(200).json({msg:"Category deleted successfuly in the system"});
     }
       catch(err){
-        console.log("Error from editCategory:",err.message);
+        console.log("Error from editCategory function:",err.message);
         res.status(500).json({ error: "Internal Server Error" });
     }
     

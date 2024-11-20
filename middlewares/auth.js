@@ -25,7 +25,8 @@ const auth = (req, res, next) => {
     
     next(); // Proceed to the next middleware/handler
   } catch (err) {
-    res.status(401).json({ err: "Token invalid or expired" });
+    console.error("Error from auth function :", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
   }
 };
 
@@ -53,7 +54,8 @@ const authAdmin = (req, res, next) => {
     req.tokenData = decodeToken; // Attach decoded token data to request
     next(); // Proceed to the next middleware/handler
   } catch (err) {
-    console.error("msg error from authAdmin: ", err.message);
+    console.error("Error from authAdmin function :", err.message);
+    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
 
   }
 };
@@ -74,7 +76,7 @@ const getAuthenticatedUser = (req) => {
     return req.tokenData; // Return the authenticated user's ID
     
   } catch (err) {
-    console.error("Error from getAuthenticatedUser:", err.message);
+    console.error("Error from getAuthenticatedUser funcion:", err.message);
     return null; // Return null if authentication fails
   }
 };

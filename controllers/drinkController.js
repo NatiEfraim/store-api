@@ -14,7 +14,7 @@ const { getAuthenticatedUser } = require("../middlewares/auth");
             const drinks = await DrinkModel.find();
             res.status(200).json(drinks);
           } catch (err) {
-            console.error("Error from getDrinks:", err.message);
+            console.error("Error from fetchDrinkList function:", err.message);
             res.status(500).json({ error: "Internal Server Error" });
           }
                
@@ -37,7 +37,7 @@ const fetchDrinkById = async (req, res) => {
   
       res.status(200).json(drink);
     } catch (err) {
-      console.error("Error from fetchDrinkById:", err.message);
+      console.error("Error from fetchDrinkById function:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
@@ -72,7 +72,7 @@ const editDrink = async (req, res) => {
       res.status(200).json({msg:"category updated successful"});
       
     } catch (err) {
-      console.error("Error from editDrink:", err.message);
+      console.error("Error from editDrink function:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
@@ -104,7 +104,7 @@ const createDrink = async (req, res) => {
   
       res.json({msg:"Drink saved successful in the system."});
     } catch (err) {
-      console.error("Error from createDrink:", err.message);
+      console.error("Error from createDrink function:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
 
@@ -128,7 +128,7 @@ const deleteById = async (req, res) => {
   
       res.status(200).json({ msg: "Drink deleted successfully" });
     } catch (err) {
-      console.error("Error from deleteById:", err.message);
+      console.error("Error from deleteById function:", err.message);
       res.status(500).json({ error: "Internal Server Error" });
     }
   };
@@ -151,7 +151,7 @@ const getDrinksByUserId = async (req, res) => {
 
     res.status(200).json(drinks); // Return the list of drinks
   } catch (err) {
-    console.error("Error from getDrinksByUserId:", err.message);
+    console.error("Error from getDrinksByUserId function:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };

@@ -98,11 +98,11 @@ const changeRole = async (req, res) => {
 
     // If the user does not exist, return a 404 error
     if (!updatedUser) {
-      return res.status(404).json({ err: "User not found" });
+      return res.status(400).json({ err: "User not exist in the system" });
     }
 
     // Send the updated user data as the response
-    res.json({ msg: "Role updated successfully", user: updatedUser });
+    res.json({ msg: "Role updated successfully"});
   } catch (err) {
     console.error("Error from changeUserRole function:", err.message);
     res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
