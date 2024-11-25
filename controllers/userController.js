@@ -1,8 +1,6 @@
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { config } = require("../config/secret");
+const { UserModel, validateUser } = require("../models/userModel");
 
-const { UserModel, validateUser,validateLogin } = require("../models/userModel");
 
 /**
  * Create a new user

@@ -1,7 +1,5 @@
-const express = require("express");
 const {CategoryModel,validateCategory,validateEditCategory} = require("../models/categoryModel");
-// const { authAdmin,auth } = require("../middlewares/auth");
-// const router = express.Router();
+
 
 
 
