@@ -17,7 +17,7 @@ const getUserById = async (userId) => {
     return user; // Return the user data
   } catch (err) {
     console.error("Error from getUserById function:", err.message);
-    return { error: "Internal Server Error" }; // Return a generic error message
+    return { msg: "Internal Server Error" }; // Return a generic error message
   }
 };
 

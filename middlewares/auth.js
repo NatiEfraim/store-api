@@ -44,7 +44,7 @@ const authAdmin = (req, res, next) => {
     const token = req.cookies.access_token; // Retrieve token from cookies
     
     if (!token) {
-      return res.status(401).json({ err: "You need to send a token in the cookies" });
+      return res.status(401).json({ msg: "You need to send a token in the cookies" });
     }
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
@@ -55,7 +55,7 @@ const authAdmin = (req, res, next) => {
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from authAdmin function :", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
 
   }
 };
@@ -71,13 +71,15 @@ const getAuthenticatedUser = (req) => {
   try {
     if (!req.tokenData || !req.tokenData._id) {
       // throw new Error("User not authenticated");
-      return null;
+      return res.status(403).json({ msg: "User not authenticated" });
+      // return null;
     }
     return req.tokenData; // Return the authenticated user's ID
     
   } catch (err) {
     console.error("Error from getAuthenticatedUser funcion:", err.message);
-    return null; // Return null if authentication fails
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    // return null; // Return null if authentication fails
   }
 };
 

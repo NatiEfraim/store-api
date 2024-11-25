@@ -7,6 +7,8 @@ const { getAuthenticatedUser } = require("../middlewares/auth");
 
 /**
  * Example function to fetch user data by user_id
+  * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const fetchUserDetails = async (req, res) => {
 
@@ -22,13 +24,15 @@ const fetchUserDetails = async (req, res) => {
         res.status(200).json(user); // Return user data
     } catch (error) {
         console.error("Error from fetchUserDetails function:", err.message);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ msg: "Internal Server Error" });
     }
   
   };
 
 /**
  * Get all products with pagination and filtering
+  * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const getProducts = async (req, res) => {
   try {
@@ -45,12 +49,14 @@ const getProducts = async (req, res) => {
     res.status(200).json(products);
   } catch (err) {
     console.error("Error from getProducts function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
 /**
  * Get a single product by ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const getProductById = async (req, res) => {
   try {
@@ -58,13 +64,13 @@ const getProductById = async (req, res) => {
     const product = await ProductModel.findById(id);
 
     if (!product) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ msg: "Product not found" });
     }
 
     res.status(200).json(product);
   } catch (err) {
     console.error("Error from getProductById function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -88,7 +94,7 @@ const getProductByUserId = async (req, res) => {
     res.status(200).json(products); // Return the list of products
   } catch (err) {
     console.error("Error from getProductsByUserId function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -128,6 +134,8 @@ const createProduct = async (req, res) => {
 
 /**
  * Update an existing product by ID
+  * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const updateProduct = async (req, res) => {
   const { id } = req.params;
@@ -156,6 +164,8 @@ const updateProduct = async (req, res) => {
 
 /**
  * Delete a product by ID
+  * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
  */
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
@@ -164,13 +174,13 @@ const deleteProduct = async (req, res) => {
     const deletedProduct = await ProductModel.findByIdAndDelete(id);
 
     if (!deletedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(404).json({ msg: "Product not found" });
     }
 
     res.status(200).json({ msg: "Product deleted successfully" });
   } catch (err) {
     console.error("Error from deleteProduct function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 

@@ -50,6 +50,7 @@ const validateUser = (_reqBody) => {
     name: Joi.string().min(2).max(150).required(),
     email: Joi.string().min(2).max(200).email().required(),
     password: Joi.string().min(3).max(150).required(),
+    role: Joi.string().valid("admin","user").required(),
   });
 
   return joiSchema.validate(_reqBody);

@@ -28,7 +28,7 @@ const {CategoryModel,validateCategory,validateEditCategory} = require("../models
       }
       catch(err){
         console.log("Error from fetchCategoriesList function:",err.message);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ msg: "Internal Server Error" });
     }
            
 
@@ -62,7 +62,7 @@ const createCategory = async (req, res) => {
     console.error("Error from createCategory function:", err.message);
 
     // Send an error response in case of failure
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -97,7 +97,7 @@ const createCategory = async (req, res) => {
     catch(err){
 
     console.log("Error from editCategory function:",err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
     }
 
   };
@@ -121,7 +121,7 @@ const createCategory = async (req, res) => {
     }
       catch(err){
         console.log("Error from editCategory function:",err.message);
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(500).json({ msg: "Internal Server Error" });
     }
     
   };

@@ -13,7 +13,8 @@ const createUser = async (req, res) => {
 
     const validBody = validateUser(req.body);
     if (validBody.error) {
-      return res.status(400).json(validBody.error.details);
+
+      return res.status(400).json({msg:validBody.error.message});
     }
 
     const user = new UserModel(req.body);
@@ -27,7 +28,7 @@ const createUser = async (req, res) => {
   } catch (err) {
 
     console.error("error from createUser function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
 
   }
 };
@@ -49,7 +50,7 @@ const decodeToken = async (req, res) => {
   } catch (err) {
 
     console.error("error from decodeToken function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
 
   }
 };
@@ -96,14 +97,14 @@ const changeRole = async (req, res) => {
 
     // If the user does not exist, return a 404 error
     if (!updatedUser) {
-      return res.status(400).json({ err: "User not exist in the system" });
+      return res.status(400).json({ msg: "User not exist in the system" });
     }
 
     // Send the updated user data as the response
     res.json({ msg: "Role updated successfully"});
   } catch (err) {
     console.error("Error from changeUserRole function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 
 
@@ -126,7 +127,7 @@ const changeRole = async (req, res) => {
     res.json(data);
   } catch (err) {
     console.error("Error from getUsersList function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 };
 
@@ -148,7 +149,7 @@ const changeRole = async (req, res) => {
   
       console.error("error from fetchUserInfo function:", err.message);
       
-      res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+      res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
     }
 };
 
@@ -172,14 +173,14 @@ const deleteUser = async (req, res) => {
 
     // If the user does not exist, return a 404 error
     if (!deletedUser) {
-      return res.status(404).json({ err: "User not found" });
+      return res.status(404).json({ msg: "User not found" });
     }
 
     // Send a success message as the response
     res.json({ msg: "User deleted successfully" });
   } catch (err) {
     console.error("Error from deleteUser function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 };
   

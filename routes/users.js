@@ -1,7 +1,5 @@
 const express = require("express");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { UserModel, validateUser, validateLogin, createToken } = require("../models/userModel");
+const { UserModel } = require("../models/userModel");
 const { createUser
   ,getUsersList
   ,fetchUserInfo

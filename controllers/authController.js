@@ -19,7 +19,7 @@ const loginUser = async (req, res) => {
   
       
       if (validBody.error) {
-        return res.status(400).json(validBody.error.details);
+        return res.status(400).json({msg:validBody.error.message});
       }
 
 
@@ -30,7 +30,7 @@ const loginUser = async (req, res) => {
   
       const isValidPassword = await bcrypt.compare(req.body.password, user.password);
       if (!isValidPassword) {
-        return res.status(401).json({ err: "Invalid email or password" });
+        return res.status(401).json({ msg: "Invalid email or password" });
       }
       
       const token = jwt.sign({ _id: user._id, role: user.role }, config.TOKEN_SECRET, { expiresIn: "1h" });
@@ -43,7 +43,7 @@ const loginUser = async (req, res) => {
       res.json({ msg: "Login successful"});
     } catch (err) {
       console.error("Error from login function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+      res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
 
     }
   };
@@ -64,7 +64,7 @@ const logoutUser = (req, res) => {
       res.json({ msg: "Logout successful" });
     } catch (err) {
       console.error("Error from logout function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
   };
 

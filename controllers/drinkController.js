@@ -15,7 +15,7 @@ const { getAuthenticatedUser } = require("../middlewares/auth");
             res.status(200).json(drinks);
           } catch (err) {
             console.error("Error from fetchDrinkList function:", err.message);
-            res.status(500).json({ error: "Internal Server Error" });
+            res.status(500).json({ msg: "Internal Server Error" });
           }
                
 
@@ -32,13 +32,13 @@ const fetchDrinkById = async (req, res) => {
       const drink = await DrinkModel.findById(id);
   
       if (!drink) {
-        return res.status(404).json({ error: "Drink not found" });
+        return res.status(404).json({ msg: "Drink not found" });
       }
   
       res.status(200).json(drink);
     } catch (err) {
       console.error("Error from fetchDrinkById function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
   };
 
@@ -57,7 +57,7 @@ const editDrink = async (req, res) => {
       const { id } = req.params;
       const { error } = validateEditDrink(req.body);
       if (error) {
-        return res.status(400).json({ error: error.details[0].message });
+        return res.status(400).json({ msg: error.details[0].message });
       }
   
       const updatedDrink = await DrinkModel.findByIdAndUpdate(id, req.body, {
@@ -66,14 +66,14 @@ const editDrink = async (req, res) => {
       });
   
       if (!updatedDrink) {
-        return res.status(404).json({ error: "Drink not found" });
+        return res.status(404).json({ msg: "Drink not found" });
       }
   
       res.status(200).json({msg:"category updated successful"});
       
     } catch (err) {
       console.error("Error from editDrink function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
   };
   
@@ -90,13 +90,13 @@ const createDrink = async (req, res) => {
 
       const { error } = validateCreateDrink(req.body);
       if (error) {
-        return res.status(400).json({ error: error.details[0].message });
+        return res.status(400).json({ msg: error.details[0].message });
       }
     // Get the authenticated user's ID
     const userData = getAuthenticatedUser(req);
     const {_id,role} =userData;//destruct what needed.
     if (!_id) {
-      return res.status(401).json({ err: "User not authenticated" });
+      return res.status(401).json({ msg: "User not authenticated" });
     }
             // Create a new drink with the authenticated user's id
     const newDrink = new DrinkModel({ ...req.body, user_id: _id });
@@ -105,7 +105,7 @@ const createDrink = async (req, res) => {
       res.json({msg:"Drink saved successful in the system."});
     } catch (err) {
       console.error("Error from createDrink function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
 
 
@@ -129,7 +129,7 @@ const deleteById = async (req, res) => {
       res.status(200).json({ msg: "Drink deleted successfully" });
     } catch (err) {
       console.error("Error from deleteById function:", err.message);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ msg: "Internal Server Error" });
     }
   };
 
@@ -152,7 +152,7 @@ const getDrinksByUserId = async (req, res) => {
     res.status(200).json(drinks); // Return the list of drinks
   } catch (err) {
     console.error("Error from getDrinksByUserId function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(500).json({ msg: "Internal Server Error" });
   }
 };
 
