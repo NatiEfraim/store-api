@@ -17,7 +17,7 @@ const auth = (req, res, next) => {
     const token = req.cookies.access_token; // Retrieve token from cookies
 
     if (!token) {
-      return res.status(401).json({ err: "You need to send a token in the cookies" });
+      return res.status(401).json({ msg: "You need to send a token in the cookies" });
     }
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
@@ -26,7 +26,7 @@ const auth = (req, res, next) => {
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from auth function :", err.message);
-    res.status(500).json({ error: "Internal Server Error" }); // Handle error with a proper response
+    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 };
 
