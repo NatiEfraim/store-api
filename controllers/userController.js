@@ -12,10 +12,11 @@ const createUser = async (req, res) => {
 
   try {
 
-    const validBody = validateUser(req.body);
-    if (validBody.error) {
+    const {error} = validateUser(req.body);
+    if (error) {
 
-      return res.status(StatusCodes.BAD_REQUEST).json({msg:validBody.error.message});
+      return res.status(StatusCodes.BAD_REQUEST)
+      .json({msg:error.details[0].message});
     }
 
     const user = new UserModel(req.body);

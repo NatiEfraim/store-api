@@ -158,7 +158,7 @@ const deleteById = async (req, res) => {
  */
 const getDrinksByUserId = async (req, res) => {
 
-  
+
   const { user_id } = req.params; // Extract user_id from the request parameters
 
   try {

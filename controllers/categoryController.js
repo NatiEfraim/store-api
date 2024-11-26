@@ -48,12 +48,14 @@ const createCategory = async (req, res) => {
   try {
 
 
-    const validBody = validateCategory(req.body);
+    const {error} = validateCategory(req.body);
   
     // Validate the incoming request body
-    if (validBody.error) {
+    if (error) {
+      console.log("msg from createCategory :", error.details[0].message);
+
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({msg:validBody.error.details});
+      .json({msg:error.details[0].message});
     }
 
     const category = new CategoryModel(req.body);
@@ -90,10 +92,11 @@ const createCategory = async (req, res) => {
         .json({msg:"id of category must recived"})
       }
 
-    const validBody = validateEditCategory(req.body);
-   if(validBody.error){
+    const {error} = validateEditCategory(req.body);
+    
+   if(error){
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({msg:validBody.error.details})
+      .json({msg:error.details[0].message})
    }
 
 

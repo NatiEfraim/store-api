@@ -118,7 +118,7 @@ const createProduct = async (req, res) => {
     const { error } = validateProduct(req.body);
     if (error) {
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({ msg: error.details });
+      .json({ msg: error.details[0].message });
     }
 
 
@@ -148,21 +148,31 @@ const createProduct = async (req, res) => {
  * @param {Object} res - Express response object
  */
 const updateProduct = async (req, res) => {
-  const { id } = req.params;
+  
 
-  const { error } = validateProduct(req.body);
-  if (error) {
-    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: error.details.message });
-  }
+
 
   try {
+    
+    
+    const { id } = req.params;
+  
+    const { error } = validateProduct(req.body);
+
+    if (error) {
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({ msg: error.details[0].message });
+    }
+
+
     const updatedProduct = await ProductModel.findByIdAndUpdate(id, req.body, {
       new: true,
       runValidators: true,
     });
 
     if (!updatedProduct) {
-      return res.status(StatusCodes.NOT_FOUND).json({ msg: "Product not found" });
+      return res.status(StatusCodes.NOT_FOUND)
+      .json({ msg: "Product not found" });
     }
 
     res.status(StatusCodes.OK)
