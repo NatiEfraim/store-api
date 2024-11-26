@@ -1,7 +1,49 @@
 const bcrypt = require("bcrypt");
 const { UserModel, validateUser } = require("../models/userModel");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const { UserRoles } = require("../utils/enums");
 
+
+
+
+/**
+ * Get all  users with admin role
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
+
+const getRoleAdmin = async (req, res) => {
+  try {
+    const admins = await UserModel.find({ role: UserRoles.ADMIN }, 
+      { password: 0,updatedAt:0,createdAt:0,favs_ar:0 }); // Use the enum
+    res.status(StatusCodes.OK).json({data:admins});
+  } catch (err) {
+    console.error("Error fetching getRoleAdmins:", err.message);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
+  }
+};
+
+
+
+/**
+ * Get all  users with user role
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
+
+const getRoleUser = async (req, res) => {
+  try {
+    const users = await UserModel.find({ role: UserRoles.USER },
+       { password: 0,updatedAt:0,createdAt:0,favs_ar:0 }); // Use the enum
+    res.status(StatusCodes.OK).json({data:users});
+  } catch (err) {
+    console.error("Error fetching getRoleUsers:", err.message);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    msg.json({ error: "Internal Server Error" });
+  }
+};
 
 /**
  * Create a new user
@@ -204,6 +246,8 @@ module.exports = {
   fetchUserInfo,
   decodeToken,
   changeRole,
-  deleteUser
+  deleteUser,
+  getRoleAdmin,
+  getRoleUser,
 };
 

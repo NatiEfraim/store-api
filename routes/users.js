@@ -6,6 +6,9 @@ const { createUser
   ,decodeToken,
   deleteUser,
 changeRole,
+getRoleAdmin,
+getRoleUser,
+
 } = require("../controllers/userController");
 const {loginUser,logoutUser} =require("../controllers/authController");
 const { auth, authAdmin } = require("../middlewares/auth");
@@ -117,6 +120,109 @@ router.get("/checkToken", auth, decodeToken);
  */
 
 router.get("/userInfo", authAdmin, fetchUserInfo);
+
+/**
+ * @swagger
+ * /users/role/admins:
+ *   get:
+ *     summary: Get all users with the admin role
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Optional if JWT authentication is used
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all admins
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: User ID
+ *                         example: 644f7a80fcc370fd6cba1df6
+ *                       name:
+ *                         type: string
+ *                         description: Name of the admin
+ *                         example: "Admin Name"
+ *                       email:
+ *                         type: string
+ *                         description: Email of the admin
+ *                         example: "admin@example.com"
+ *                       role:
+ *                         type: string
+ *                         description: Role of the user
+ *                         example: "admin"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+
+router.get("/role/admins", authAdmin, getRoleAdmin);
+
+
+/**
+ * @swagger
+ * /users/role/users:
+ *   get:
+ *     summary: Get all users with the user role
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Optional if JWT authentication is used
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: User ID
+ *                         example: 644f7a80fcc370fd6cba1df6
+ *                       name:
+ *                         type: string
+ *                         description: Name of the user
+ *                         example: "User Name"
+ *                       email:
+ *                         type: string
+ *                         description: Email of the user
+ *                         example: "user@example.com"
+ *                       role:
+ *                         type: string
+ *                         description: Role of the user
+ *                         example: "user"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+
+router.get("/role/users", authAdmin, getRoleUser);
 
 /**
  * @swagger
