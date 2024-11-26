@@ -1,4 +1,5 @@
 const {CategoryModel,validateCategory,validateEditCategory} = require("../models/categoryModel");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 
 
@@ -24,11 +25,12 @@ const {CategoryModel,validateCategory,validateEditCategory} = require("../models
         .limit(perPage)
         .skip(page * perPage)
         .sort({[sort]:reverse})
-        res.json(data);
+        res.json({data:data}).status(StatusCodes.OK);
       }
       catch(err){
         console.log("Error from fetchCategoriesList function:",err.message);
-        res.status(500).json({ msg: "Internal Server Error" });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ msg: "Internal Server Error" });
     }
            
 
@@ -50,19 +52,21 @@ const createCategory = async (req, res) => {
   
     // Validate the incoming request body
     if (validBody.error) {
-      return res.status(400).json(validBody.error.details);
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({msg:validBody.error.details});
     }
 
     const category = new CategoryModel(req.body);
     await category.save();
 
     // Send a success response
-    res.json({ msg: "Category saved successfully in the system." });
+    res.json({ msg: "Category saved successfully in the system." }).status(StatusCodes.OK);
   } catch (err) {
     console.error("Error from createCategory function:", err.message);
 
     // Send an error response in case of failure
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Internal Server Error" });
   }
 };
 
@@ -77,27 +81,33 @@ const createCategory = async (req, res) => {
   const editCategory = async (req, res) => {
 
     try{
+
+
       const id = req.params.id;
 
       if (!id) {
-        return res.status(400).json({msg:"id of category must recived"})
+        return res.status(StatusCodes.BAD_REQUEST)
+        .json({msg:"id of category must recived"})
       }
 
     const validBody = validateEditCategory(req.body);
    if(validBody.error){
-      return res.status(400).json(validBody.error.details)
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({msg:validBody.error.details})
    }
 
 
     const data = await CategoryModel.updateOne({_id:id},req.body)
     
-    res.status(200).json({msg:"Category updated successfuly in the system"});
+    res.status(StatusCodes.OK)
+    .json({msg:"Category updated successfuly in the system"});
 
    }
     catch(err){
 
     console.log("Error from editCategory function:",err.message);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.OK)
+    .json({ msg: "Internal Server Error" });
     }
 
   };
@@ -114,14 +124,17 @@ const createCategory = async (req, res) => {
      
         const {deletedCount} = data;
         if (!deletedCount) {
-            res.status(400).json({msg:"Category not exsist in the system"});
+            res.status(StatusCodes.BAD_REQUEST)
+            .json({msg:"Category not exsist in the system"});
 
         }
-        res.status(200).json({msg:"Category deleted successfuly in the system"});
+        res.status(StatusCodes.OK)
+        .json({msg:"Category deleted successfuly in the system"});
     }
       catch(err){
         console.log("Error from editCategory function:",err.message);
-        res.status(500).json({ msg: "Internal Server Error" });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ msg: "Internal Server Error" });
     }
     
   };

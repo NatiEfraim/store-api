@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
-
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { UserModel,validateLogin } = require("../models/userModel");
 
 /**
@@ -15,22 +15,33 @@ const loginUser = async (req, res) => {
     try {
 
 
+
       const validBody = validateLogin(req.body);
   
       
-      if (validBody.error) {
-        return res.status(400).json({msg:validBody.error.message});
+       // If validation fails
+       if (validBody.error) {
+
+        return res
+          .status(StatusCodes.BAD_REQUEST)
+          .json({ msg: validBody.error.message });
       }
 
 
       const user = await UserModel.findOne({ email: req.body.email });
       if (!user) {
-        return res.status(401).json({ err: "Invalid email or password" });
+
+        return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ msg: ReasonPhrases.UNAUTHORIZED });
       }
   
       const isValidPassword = await bcrypt.compare(req.body.password, user.password);
       if (!isValidPassword) {
-        return res.status(401).json({ msg: "Invalid email or password" });
+        return res
+        .status(StatusCodes.UNAUTHORIZED)
+        .json({ msg: ReasonPhrases.UNAUTHORIZED });
+
       }
       
       const token = jwt.sign({ _id: user._id, role: user.role }, config.TOKEN_SECRET, { expiresIn: "1h" });
@@ -40,10 +51,14 @@ const loginUser = async (req, res) => {
         maxAge: 60 * 60 * 1000, // 1 hour
       });
   
-      res.json({ msg: "Login successful"});
+      res
+      .status(StatusCodes.OK)
+      .json({ msg: ReasonPhrases.OK });
     } catch (err) {
       console.error("Error from login function:", err.message);
-      res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+      res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); // Handle error with a proper response
 
     }
   };

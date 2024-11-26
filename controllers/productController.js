@@ -1,6 +1,7 @@
 const { ProductModel, validateProduct } = require("../models/productModel");
 const { getUserById } = require("../utils/userUtils");
 const { getAuthenticatedUser } = require("../middlewares/auth");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 
 
@@ -18,13 +19,15 @@ const fetchUserDetails = async (req, res) => {
         const user = await getUserById(user_id);
       
         if (user.error) {
-          return res.status(404).json(user); // Return error if user is not found
+          return res.status(StatusCodes.BAD_REQUEST)
+          .json({msg:"User not exsit in the system"}); // Return error if user is not found
         }
       
-        res.status(200).json(user); // Return user data
+        res.status(StatusCodes.OK).json({data:user}); // Return user data
     } catch (error) {
         console.error("Error from fetchUserDetails function:", err.message);
-        res.status(500).json({ msg: "Internal Server Error" });
+        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+        .json({ msg: "Internal Server Error" });
     }
   
   };
@@ -46,10 +49,11 @@ const getProducts = async (req, res) => {
       .skip(page * perPage)
       .sort({ [sort]: reverse });
 
-    res.status(200).json(products);
+    res.status(StatusCodes.OK).json({data:products});
   } catch (err) {
     console.error("Error from getProducts function:", err.message);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Internal Server Error" });
   }
 };
 
@@ -64,10 +68,11 @@ const getProductById = async (req, res) => {
     const product = await ProductModel.findById(id);
 
     if (!product) {
-      return res.status(404).json({ msg: "Product not found" });
+      return res.status(StatusCodes.NOT_FOUND)
+      .json({ msg: "Product not found" });
     }
 
-    res.status(200).json(product);
+    res.status(StatusCodes.OK).json({data:product});
   } catch (err) {
     console.error("Error from getProductById function:", err.message);
     res.status(500).json({ msg: "Internal Server Error" });
@@ -88,13 +93,15 @@ const getProductByUserId = async (req, res) => {
     const products = await ProductModel.find({ user_id });
 
     if (!products.length) {
-      return res.status(404).json({ msg: "No products found for this user." });
+      return res.status(StatusCodes.NOT_FOUND)
+      .json({ msg: "No products found for this user." });
     }
 
-    res.status(200).json(products); // Return the list of products
+    res.status(StatusCodes.OK).json({data:products}); // Return the list of products
   } catch (err) {
     console.error("Error from getProductsByUserId function:", err.message);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.OK)
+    .json({ msg: "Internal Server Error" });
   }
 };
 
@@ -110,7 +117,8 @@ const createProduct = async (req, res) => {
 
     const { error } = validateProduct(req.body);
     if (error) {
-      return res.status(400).json({ error: error.details });
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({ msg: error.details });
     }
 
 
@@ -118,17 +126,19 @@ const createProduct = async (req, res) => {
     const userData = getAuthenticatedUser(req);
     const {_id,role} =userData;//destruct what needed.
     if (!_id) {
-      return res.status(401).json({ err: "User not authenticated" });
+      return res.status(StatusCodes.UNAUTHORIZED)
+      .json({ msg: "User not authenticated" });
     }
 
     const product = new ProductModel({ ...req.body, user_id: _id });
 
     await product.save();
 
-    res.status(201).json({ msg: "Product created successfully"});
+    res.status(StatusCodes.OK)
+    .json({ msg: "Product created successfully"});
   } catch (err) {
     console.error("Error from createProduct function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(StatusCodes.OK).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -142,7 +152,7 @@ const updateProduct = async (req, res) => {
 
   const { error } = validateProduct(req.body);
   if (error) {
-    return res.status(400).json({ error: error.details });
+    return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: error.details.message });
   }
 
   try {
@@ -152,13 +162,14 @@ const updateProduct = async (req, res) => {
     });
 
     if (!updatedProduct) {
-      return res.status(404).json({ error: "Product not found" });
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "Product not found" });
     }
 
-    res.status(200).json({ msg: "Product updated successfully", product: updatedProduct });
+    res.status(StatusCodes.OK)
+    .json({ msg: "Product updated successfully", data: updatedProduct });
   } catch (err) {
     console.error("Error from updateProduct function:", err.message);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: "Internal Server Error" });
   }
 };
 
@@ -168,19 +179,25 @@ const updateProduct = async (req, res) => {
  * @param {Object} res - Express response object
  */
 const deleteProduct = async (req, res) => {
-  const { id } = req.params;
-
+  
   try {
+
+
+    const { id } = req.params;
+
     const deletedProduct = await ProductModel.findByIdAndDelete(id);
 
     if (!deletedProduct) {
-      return res.status(404).json({ msg: "Product not found" });
+      return res.status(StatusCodes.NOT_FOUND)
+      .json({ msg: "Product not found" });
     }
 
-    res.status(200).json({ msg: "Product deleted successfully" });
+    res.status(StatusCodes.OK)
+    .json({ msg: "Product deleted successfully" });
   } catch (err) {
     console.error("Error from deleteProduct function:", err.message);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Internal Server Error" });
   }
 };
 

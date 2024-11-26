@@ -1,6 +1,7 @@
 
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
+const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 
   /**
@@ -17,7 +18,8 @@ const auth = (req, res, next) => {
     const token = req.cookies.access_token; // Retrieve token from cookies
 
     if (!token) {
-      return res.status(401).json({ msg: "You need to send a token in the cookies" });
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({ msg: "You need to send a token in the cookies" });
     }
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
@@ -26,7 +28,8 @@ const auth = (req, res, next) => {
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from auth function :", err.message);
-    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    res.status(StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE)
+    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 };
 
@@ -44,18 +47,21 @@ const authAdmin = (req, res, next) => {
     const token = req.cookies.access_token; // Retrieve token from cookies
     
     if (!token) {
-      return res.status(401).json({ msg: "You need to send a token in the cookies" });
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      .json({ msg: "You need to send a token in the cookies" });
     }
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
     if (decodeToken.role !== "admin" && decodeToken.role !== "superadmin") {
-      return res.status(403).json({ err: "You must be an admin to access this endpoint" });
+      return res.status(StatusCodes.FORBIDDEN)
+      .json({ err: "You must be an admin to access this endpoint" });
     }
     req.tokenData = decodeToken; // Attach decoded token data to request
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from authAdmin function :", err.message);
-    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
 
   }
 };
@@ -68,17 +74,23 @@ const authAdmin = (req, res, next) => {
 
 
 const getAuthenticatedUser = (req) => {
+
+
   try {
+
+
     if (!req.tokenData || !req.tokenData._id) {
       // throw new Error("User not authenticated");
-      return res.status(403).json({ msg: "User not authenticated" });
+      return res.status(StatusCodes.UNAUTHORIZED)
+      .json({ msg: "User not authenticated" });
       // return null;
     }
     return req.tokenData; // Return the authenticated user's ID
     
   } catch (err) {
     console.error("Error from getAuthenticatedUser funcion:", err.message);
-    res.status(500).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
     // return null; // Return null if authentication fails
   }
 };
