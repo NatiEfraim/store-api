@@ -29,8 +29,8 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
       }
       catch(err){
         console.log("Error from fetchCategoriesList function:",err.message);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ msg: "Internal Server Error" });
+        res.json({ msg: "Internal Server Error" })
+        .status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
            
 
@@ -54,8 +54,8 @@ const createCategory = async (req, res) => {
     if (error) {
       console.log("msg from createCategory :", error.details[0].message);
 
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
-      .json({msg:error.details[0].message});
+      return res.json({msg:error.details[0].message})
+      .status(StatusCodes.UNPROCESSABLE_ENTITY);
     }
 
     const category = new CategoryModel(req.body);
@@ -67,8 +67,8 @@ const createCategory = async (req, res) => {
     console.error("Error from createCategory function:", err.message);
 
     // Send an error response in case of failure
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" });
+    res.json({ msg: "Internal Server Error" })
+    .status(StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
 
@@ -88,8 +88,8 @@ const createCategory = async (req, res) => {
       const id = req.params.id;
 
       if (!id) {
-        return res.status(StatusCodes.BAD_REQUEST)
-        .json({msg:"id of category must recived"})
+        return res.json({msg:"id of category must recived"})
+        .status(StatusCodes.BAD_REQUEST);
       }
 
     const {error} = validateEditCategory(req.body);
@@ -108,9 +108,8 @@ const createCategory = async (req, res) => {
    }
     catch(err){
 
-    console.log("Error from editCategory function:",err.message);
-    res.status(StatusCodes.OK)
-    .json({ msg: "Internal Server Error" });
+      console.log("Error from editCategory function:",err.message);
+      res.json({ msg: "Internal Server Error" }).status(StatusCodes.OK);
     }
 
   };
@@ -121,23 +120,28 @@ const createCategory = async (req, res) => {
  * @param {Object} res - Express response object
  */
   const deleteById = async (req, res) => {
+
+
+
     try{
+
         const id = req.params.id;
+
         const data = await CategoryModel.deleteOne({_id:id})
      
         const {deletedCount} = data;
         if (!deletedCount) {
-            res.status(StatusCodes.BAD_REQUEST)
-            .json({msg:"Category not exsist in the system"});
+            res.json({msg:"Category not exsist in the system"})
+            .status(StatusCodes.BAD_REQUEST);
 
         }
-        res.status(StatusCodes.OK)
-        .json({msg:"Category deleted successfuly in the system"});
+        res.json({msg:"Category deleted successfuly in the system"})
+        .status(StatusCodes.OK);
     }
       catch(err){
         console.log("Error from editCategory function:",err.message);
-        res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ msg: "Internal Server Error" });
+        res.json({ msg: "Internal Server Error" })
+        .status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     
   };

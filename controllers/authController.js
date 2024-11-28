@@ -12,19 +12,18 @@ const { UserModel,validateLogin } = require("../models/userModel");
 
 const loginUser = async (req, res) => {
     
-    try {
-
-
-
-      const validBody = validateLogin(req.body);
   
+  
+  try {
+
+      const {error} = validateLogin(req.body);
       
        // If validation fails
-       if (validBody.error) {
+       if (error) {
 
         return res
-          .status(StatusCodes.BAD_REQUEST)
-          .json({ msg: validBody.error.message });
+        .json({ msg:  error.message })
+        .status(StatusCodes.UNPROCESSABLE_ENTITY);
       }
 
 
@@ -32,8 +31,8 @@ const loginUser = async (req, res) => {
       if (!user) {
 
         return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ msg: ReasonPhrases.UNAUTHORIZED });
+        .json({ msg: ReasonPhrases.UNAUTHORIZED })
+        .status(StatusCodes.UNAUTHORIZED);
       }
   
       const isValidPassword = await bcrypt.compare(req.body.password, user.password);
@@ -52,13 +51,13 @@ const loginUser = async (req, res) => {
       });
   
       res
-      .status(StatusCodes.OK)
-      .json({ msg: ReasonPhrases.OK });
+      .json({ msg: ReasonPhrases.OK })
+      .status(StatusCodes.OK);
     } catch (err) {
       console.error("Error from login function:", err.message);
       res
-      .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); // Handle error with a proper response
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }) 
+      .status(StatusCodes.INTERNAL_SERVER_ERROR);
 
     }
   };
@@ -79,7 +78,7 @@ const logoutUser = (req, res) => {
       res.json({ msg: "Logout successful" });
     } catch (err) {
       console.error("Error from logout function:", err.message);
-      res.status(500).json({ msg: "Internal Server Error" });
+      res.json({ msg: "Internal Server Error" }).status(500);
     }
   };
 
