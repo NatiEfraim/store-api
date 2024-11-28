@@ -38,6 +38,33 @@ const productSchema = new mongoose.Schema(
   { timestamps: true } // Automatically add createdAt and updatedAt fields
 );
 
+
+// Modify the toJSON transformation to exclude specific fields and format timestamps
+productSchema.set("toJSON", {
+  transform: (doc, ret) => {
+    // Format createdAt and updatedAt
+    if (ret.createdAt) {
+      const createdAt = new Date(ret.createdAt);
+      ret.createdAt = createdAt.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      });
+    }
+
+    if (ret.updatedAt) {
+      const updatedAt = new Date(ret.updatedAt);
+      ret.updatedAt = updatedAt.toLocaleString("en-GB", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "2-digit",
+      });
+    }
+    return ret;
+  },
+});
+
+
 // Create the model from the schema
 const ProductModel = mongoose.model("products", productSchema);
 

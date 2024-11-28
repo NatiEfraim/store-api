@@ -28,7 +28,7 @@ const auth = (req, res, next) => {
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from auth function :", err.message);
-    res.status(StatusCodes.INSUFFICIENT_SPACE_ON_RESOURCE)
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
     .json({ msg: "Internal Server Error" }); // Handle error with a proper response
   }
 };

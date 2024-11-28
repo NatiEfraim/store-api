@@ -173,7 +173,7 @@ const changeRole = async (req, res) => {
 
   try {
 
-    const data = await UserModel.find({}, { password: 0 }); // Exclude password field
+    const data = await UserModel.find({}); // Exclude password field
     res.status(StatusCodes.OK)
     .json({data:data});
   } catch (err) {
