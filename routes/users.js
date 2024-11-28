@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
     res.json({ msg: "Hello from user endpoint" });
 
   } catch (err) {
-    console.error("Error from index user:", err.message);
+    console.error("Error from User tag: ", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 })

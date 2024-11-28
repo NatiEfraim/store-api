@@ -22,7 +22,7 @@ router.get("/", async (req, res) => {
     res.json({ msg: "Hello from categories endpoint" });
 
   } catch (err) {
-    console.error("Error from index user:", err.message);
+    console.error("Error from category tag:", err.message);
     res.status(500).json({ error: "Internal Server Error" });
   }
 })

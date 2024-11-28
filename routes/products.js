@@ -12,6 +12,21 @@ const {
   fetchUserDetails
 } = require("../controllers/productController");
 
+
+
+router.get("/", async (req, res) => {
+  try {
+    res.json({ msg: "Hello from Product endpoint" });
+
+  } catch (err) {
+    console.error("Error from Product tag:", err.message);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+})
+
+
+
+
 /**
  * @swagger
  * tags:
@@ -145,7 +160,7 @@ router.get("/by-user/:user_id", auth, getProductByUserId);
 
 /**
  * @swagger
- * /products:
+ * /products/index:
  *   get:
  *     summary: Get all products with pagination and filtering
  *     tags: [Product]
@@ -188,7 +203,7 @@ router.get("/by-user/:user_id", auth, getProductByUserId);
  *         description: Internal Server Error
  */
 
-router.get("/", getProducts);
+router.get("/index",auth, getProducts);
 
 
 /**
