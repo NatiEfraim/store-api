@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const { UserModel,validateLogin } = require("../models/userModel");
+const { UserModel,validateLogin,validateUser } = require("../models/userModel");
 
 /**
  * log in exist user
@@ -62,6 +62,41 @@ const loginUser = async (req, res) => {
     }
   };
 
+
+/**
+ * Signup a new user
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const signUpUser = async (req, res) => {
+  
+  try {
+
+
+    const { error } = validateUser(req.body);
+    if (error) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ error: error.details[0].message });
+    }
+  
+    const { name, email, password, role } = req.body;
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const newUser = new UserModel({
+      name,
+      email,
+      password: hashedPassword,
+      role: role || "user",
+    });
+
+    await newUser.save();
+    res.status(StatusCodes.CREATED).json({ message: "User created successfully" });
+  } catch (err) {
+    console.log("Error from authController signUpUser function: ", err.message);
+    
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
+  }
+};
+
   /**
  * Log out the current user
  * @param {Object} req - Express request object
@@ -87,4 +122,5 @@ const logoutUser = (req, res) => {
   module.exports = {
     loginUser,
     logoutUser,
+    signUpUser,
   };

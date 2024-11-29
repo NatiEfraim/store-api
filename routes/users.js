@@ -10,7 +10,7 @@ getRoleAdmin,
 getRoleUser,
 
 } = require("../controllers/userController");
-const {loginUser,logoutUser} =require("../controllers/authController");
+const {loginUser,logoutUser,signUpUser} =require("../controllers/authController");
 const { auth, authAdmin } = require("../middlewares/auth");
 const router = express.Router();
 
@@ -384,6 +384,11 @@ router.post("/",authAdmin,createUser);
  */
 
 router.post("/login", loginUser);
+
+
+
+
+router.post("/signup", signUpUser);
 
 
 /**
