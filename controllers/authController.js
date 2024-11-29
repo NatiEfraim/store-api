@@ -11,56 +11,55 @@ const { UserModel,validateLogin,validateUser } = require("../models/userModel");
  */
 
 const loginUser = async (req, res) => {
-    
-  
-  
   try {
-
-      const {error} = validateLogin(req.body);
-      
-       // If validation fails
-       if (error) {
-
-        return res
-        .json({ msg:  error.message })
-        .status(StatusCodes.UNPROCESSABLE_ENTITY);
-      }
-
-
-      const user = await UserModel.findOne({ email: req.body.email });
-      if (!user) {
-
-        return res
-        .json({ msg: ReasonPhrases.UNAUTHORIZED })
-        .status(StatusCodes.UNAUTHORIZED);
-      }
-  
-      const isValidPassword = await bcrypt.compare(req.body.password, user.password);
-      if (!isValidPassword) {
-        return res
-        .status(StatusCodes.UNAUTHORIZED)
-        .json({ msg: ReasonPhrases.UNAUTHORIZED });
-
-      }
-      
-      const token = jwt.sign({ _id: user._id, role: user.role }, config.TOKEN_SECRET, { expiresIn: "1h" });
-      res.cookie("access_token", token, {
-        httpOnly: true, // Prevent access via JavaScript
-        secure: false, // Set to true if using HTTPS
-        maxAge: 60 * 60 * 1000, // 1 hour
-      });
-  
-      res
-      .json({ msg: ReasonPhrases.OK })
-      .status(StatusCodes.OK);
-    } catch (err) {
-      console.error("Error from login function:", err.message);
-      res
-      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }) 
-      .status(StatusCodes.INTERNAL_SERVER_ERROR);
-
+    // Validate the request body
+    const { error } = validateLogin(req.body);
+    if (error) {
+      return res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: error.message });
     }
-  };
+
+    // Find the user by email
+    const user = await UserModel.findOne({ email: req.body.email });
+    if (!user) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ msg: ReasonPhrases.UNAUTHORIZED });
+    }
+
+    // Check if the password matches
+    const isValidPassword = await bcrypt.compare(req.body.password, user.password);
+    if (!isValidPassword) {
+      return res.status(StatusCodes.UNAUTHORIZED).json({ msg: ReasonPhrases.UNAUTHORIZED });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign(
+      { _id: user._id, role: user.role },
+      config.TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    // Set the token in cookies
+    res.cookie("access_token", token, {
+      httpOnly: true, // Prevent access via JavaScript
+      secure: process.env.NODE_ENV === "production", // Enable secure cookies in production
+      maxAge: 60 * 60 * 1000, // 1 hour
+    });
+
+    // Send a success response
+    return res.status(StatusCodes.OK).json({
+      msg: ReasonPhrases.OK,
+      token, // Optionally return the token if needed
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (err) {
+    console.error("Error from login function:", err.message);
+    return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
+  }
+};
 
 
 /**

@@ -346,7 +346,8 @@ router.post("/",authAdmin,createUser);
  * @swagger
  * /users/login:
  *   post:
- *     summary: Log in an existing user
+ *     summary: Login an existing user
+ *     description: Authenticates a user with valid credentials and returns a JWT token.
  *     tags: [Authentication]
  *     requestBody:
  *       required: true
@@ -354,18 +355,21 @@ router.post("/",authAdmin,createUser);
  *         application/json:
  *           schema:
  *             type: object
+ *             required:
+ *               - email
+ *               - password
  *             properties:
  *               email:
  *                 type: string
- *                 description: The user's email address
+ *                 description: User's email address.
  *                 example: john.doe@example.com
  *               password:
  *                 type: string
- *                 description: The user's password
- *                 example: MySecureP@ssword123
+ *                 description: User's password.
+ *                 example: securepassword123
  *     responses:
  *       200:
- *         description: Successfully logged in
+ *         description: Login successful.
  *         content:
  *           application/json:
  *             schema:
@@ -373,19 +377,125 @@ router.post("/",authAdmin,createUser);
  *               properties:
  *                 msg:
  *                   type: string
- *                   description: Login status message
- *                   example: Login successful
- *       400:
- *         description: Bad request, invalid input
+ *                   example: "OK"
+ *                 token:
+ *                   type: string
+ *                   description: JWT token for authenticated user.
+ *                   example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: "644f62551ca3e1d6d878dc12"
+ *                     name:
+ *                       type: string
+ *                       example: "John Doe"
+ *                     email:
+ *                       type: string
+ *                       example: "john.doe@example.com"
+ *                     role:
+ *                       type: string
+ *                       example: "user"
  *       401:
- *         description: Unauthorized, invalid email or password
+ *         description: Unauthorized. Invalid email or password.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: "Unauthorized"
+ *       422:
+ *         description: Validation error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: "\"email\" must be a valid email"
  *       500:
- *         description: Internal server error
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: "Internal Server Error"
  */
-
 router.post("/login", loginUser);
 
-
+/**
+ * @swagger
+ * /users/signup:
+ *   post:
+ *     summary: Sign up a new user
+ *     description: Creates a new user account with the specified credentials.
+ *     tags: [Authentication]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - name
+ *               - email
+ *               - password
+ *             properties:
+ *               name:
+ *                 type: string
+ *                 description: Full name of the user.
+ *                 example: John Doe
+ *               email:
+ *                 type: string
+ *                 description: Email address of the user.
+ *                 example: john.doe@example.com
+ *               password:
+ *                 type: string
+ *                 description: Password for the user.
+ *                 example: securepassword123
+ *               role:
+ *                 type: string
+ *                 description: Role of the user. Defaults to "user".
+ *                 example: user
+ *     responses:
+ *       201:
+ *         description: User created successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "User created successfully"
+ *       400:
+ *         description: Validation error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "\"email\" must be a valid email"
+ *       500:
+ *         description: Internal Server Error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 error:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
 
 
 router.post("/signup", signUpUser);
