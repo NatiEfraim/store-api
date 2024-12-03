@@ -42,7 +42,11 @@ try {
 
 try {
   // Enable CORS for all incoming requests
-  app.use(cors());
+  // app.use(cors());
+  app.use(cors({
+    origin: "http://localhost:3000", // Replace with your React app's URL
+    credentials: true, // Enable credentials
+  }));
   console.log("CORS enabled");
 } catch (err) {
   console.error("CORS initialization failed:", err.message);
