@@ -47,13 +47,7 @@ const loginUser = async (req, res) => {
     // Send a success response
     return res.status(StatusCodes.OK).json({
       msg: ReasonPhrases.OK,
-      token, // Optionally return the token if needed
-      user: {
-        _id: user._id,
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      },
+      token, 
     });
   } catch (err) {
     console.error("Error from login function:", err.message);
@@ -79,16 +73,16 @@ const signUpUser = async (req, res) => {
   
     const { name, email, password, role } = req.body;
 
-    const hashedPassword = await bcrypt.hash(password, 10);
     const newUser = new UserModel({
       name,
       email,
-      password: hashedPassword,
+      password: password,
       role: role || "user",
     });
 
     await newUser.save();
-    res.status(StatusCodes.CREATED).json({ message: "User created successfully" });
+
+    res.status(StatusCodes.CREATED).json({ msg: "User created successfully" });
   } catch (err) {
     console.log("Error from authController signUpUser function: ", err.message);
     

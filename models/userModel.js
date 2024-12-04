@@ -130,7 +130,7 @@ const validateUser = (data) => {
     name: Joi.string().min(2).max(150).required(),
     email: Joi.string().min(2).max(200).email().required(),
     password: Joi.string().min(3).max(150).required(),
-    role: Joi.string().valid("admin", "user", "superadmin").required(),
+    role: Joi.string().valid("admin", "user", "superadmin"),
   });
   return schema.validate(data);
 };

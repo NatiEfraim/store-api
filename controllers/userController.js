@@ -55,19 +55,26 @@ const createUser = async (req, res) => {
   try {
 
     const {error} = validateUser(req.body);
+
     if (error) {
 
       return res.status(StatusCodes.BAD_REQUEST)
       .json({msg:error.details[0].message});
     }
 
-    const user = new UserModel(req.body);
-    // Hash the password before saving
-    user.password = await bcrypt.hash(user.password, 10);
-    await user.save();
-    // Mask the password in the response
-    user.password = "*****";
-    res.status(StatusCodes.CREATED).json({msg:"User has been added successfuly in the system"});
+    const { name, email, password, role } = req.body;
+
+    const newUser = new UserModel({
+      name,
+      email,
+      password: password,
+      role: role || "user",
+    });
+
+    await newUser.save();
+
+    res.status(StatusCodes.CREATED)
+    .json({msg:"User has been added successfuly in the system"});
 
   } catch (err) {
 
