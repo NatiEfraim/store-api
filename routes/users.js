@@ -119,7 +119,7 @@ router.get("/checkToken", auth, decodeToken);
  *         description: Internal server error
  */
 
-router.get("/userInfo", authAdmin, fetchUserInfo);
+router.get("/userInfo", auth, fetchUserInfo);
 
 /**
  * @swagger

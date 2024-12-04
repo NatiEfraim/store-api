@@ -11,6 +11,7 @@ const { UserModel,validateLogin,validateUser } = require("../models/userModel");
  */
 
 const loginUser = async (req, res) => {
+  
   try {
     // Validate the request body
     const { error } = validateLogin(req.body);

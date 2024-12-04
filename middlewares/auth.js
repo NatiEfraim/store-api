@@ -54,7 +54,7 @@ const authAdmin = (req, res, next) => {
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
     if (decodeToken.role !== "admin" && decodeToken.role !== "superadmin") {
       return res.status(StatusCodes.FORBIDDEN)
-      .json({ err: "You must be an admin to access this endpoint" });
+      .json({ msg: "You must be an admin to access this endpoint" });
     }
     req.tokenData = decodeToken; // Attach decoded token data to request
     next(); // Proceed to the next middleware/handler

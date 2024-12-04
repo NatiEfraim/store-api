@@ -201,6 +201,9 @@ const changeRole = async (req, res) => {
     try {
 
       const user = await UserModel.findOne({ _id: req.tokenData._id }, { password: 0 })
+      if (!user) {
+        res.status(StatusCodes.BAD_REQUEST).json({ msg: "User has been deleted" }); // Handle error with a proper response
+      }
       res.json({data:user}).status(StatusCodes.OK);
   
     }
