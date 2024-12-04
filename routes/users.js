@@ -226,7 +226,7 @@ router.get("/role/users", authAdmin, getRoleUser);
 
 /**
  * @swagger
- * /users/usersList:
+ * /users/index:
  *   get:
  *     summary: Retrieve a list of all users
  *     tags: [User]
@@ -268,7 +268,7 @@ router.get("/role/users", authAdmin, getRoleUser);
  *         description: Internal server error
  */
 
-router.get("/usersList", authAdmin, getUsersList);
+router.get("/index", auth, getUsersList);
 
 /**
  * @swagger
