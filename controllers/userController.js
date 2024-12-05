@@ -298,6 +298,31 @@ const deleteUser = async (req, res) => {
 };
   
 
+/**
+ * Get user by ID
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const getUserById = async (req, res) => {
+  try {
+    const { id } = req.params; // Extract user ID from request parameters
+
+    const user = await UserModel.findById(id, { password: 0 }); // Exclude password field
+
+    if (!user) {
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
+    }
+
+    res.status(StatusCodes.OK).json({ data: user });
+  } catch (err) {
+    console.error("Error from getUserById function:", err.message);
+    res
+      .status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Internal Server Error" });
+  }
+};
+
+
 module.exports = {
   createUser,
   getUsersList,
@@ -308,5 +333,6 @@ module.exports = {
   getRoleAdmin,
   getRoleUser,
   updateUser, 
+  getUserById,
 };
 

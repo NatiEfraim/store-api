@@ -9,6 +9,7 @@ changeRole,
 getRoleAdmin,
 getRoleUser,
 updateUser,
+getUserById,
 
 } = require("../controllers/userController");
 const {loginUser,logoutUser,signUpUser} =require("../controllers/authController");
@@ -121,6 +122,76 @@ router.get("/checkToken", auth, decodeToken);
  */
 
 router.get("/userInfo", auth, fetchUserInfo);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get user by ID
+ *     tags:
+ *       - Users
+ *     description: Retrieve a user's details by their unique ID. Excludes the password field in the response.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to retrieve.
+ *     responses:
+ *       200:
+ *         description: User retrieved successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       example: "6751cb0230aada588e693db7"
+ *                     name:
+ *                       type: string
+ *                       example: John Doe
+ *                     email:
+ *                       type: string
+ *                       example: johndoe@example.com
+ *                     role:
+ *                       type: string
+ *                       example: user
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-12-04T15:00:00.000Z"
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       example: "2024-12-05T12:00:00.000Z"
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: User not found.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error.
+ */
+
+router.get("/:id", auth, getUserById);
 
 /**
  * @swagger
