@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { config } = require("../config/secret");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
-const { UserModel,validateLogin,validateUser } = require("../models/userModel");
+const { UserModel,validateLogin,validateCreateUser } = require("../models/userModel");
 
 /**
  * log in exist user
@@ -47,7 +47,7 @@ const loginUser = async (req, res) => {
 
     // Send a success response
     return res.status(StatusCodes.OK).json({
-      msg: ReasonPhrases.OK,
+      msg: "logged in successfully",
       token, 
     });
   } catch (err) {
@@ -67,7 +67,7 @@ const signUpUser = async (req, res) => {
   try {
 
 
-    const { error } = validateUser(req.body);
+    const { error } = validateCreateUser(req.body);
     if (error) {
       return res.status(StatusCodes.BAD_REQUEST).json({ error: error.details[0].message });
     }

@@ -8,6 +8,7 @@ const { createUser
 changeRole,
 getRoleAdmin,
 getRoleUser,
+updateUser,
 
 } = require("../controllers/userController");
 const {loginUser,logoutUser,signUpUser} =require("../controllers/authController");
@@ -171,6 +172,91 @@ router.get("/userInfo", auth, fetchUserInfo);
  */
 
 router.get("/role/admins", authAdmin, getRoleAdmin);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     summary: Update a user by ID
+ *     tags:
+ *       - User
+ *     description: Updates user information by ID. Only users with the role `admin` or `superadmin` can update any user. Regular users can only update their own data.
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the user to update.
+ *       - in: body
+ *         name: body
+ *         required: true
+ *         description: Fields to update for the user. All fields are optional.
+ *         schema:
+ *           type: object
+ *           properties:
+ *             name:
+ *               type: string
+ *               description: New name of the user.
+ *               example: John Doe
+ *             email:
+ *               type: string
+ *               description: New email of the user.
+ *               example: johndoe@example.com
+ *             password:
+ *               type: string
+ *               description: New password for the user. It will be hashed before saving.
+ *               example: mySecurePassword123
+ *             role:
+ *               type: string
+ *               description: Role of the user. Only `admin` or `superadmin` can update this field.
+ *               enum: [user, admin, superadmin]
+ *               example: admin
+ *     responses:
+ *       200:
+ *         description: User updated successfully.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: User updated successfully.
+ *       400:
+ *         description: Validation error or unauthorized request.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: You can't update another user's data.
+ *       404:
+ *         description: User not found.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: User not found in the system.
+ *       500:
+ *         description: Internal server error.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error.
+ */
+
+
+router.put("/:id", auth, updateUser);
 
 
 /**

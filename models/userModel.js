@@ -123,13 +123,32 @@ userSchema.methods.createToken = function () {
 };
 
 /**
- * Validation schema for creating a user
+ * Validate user data for creating a new user
+ * @param {Object} data - The user data to validate
+ * @returns {Object} - The validation result
  */
-const validateUser = (data) => {
+
+
+const validateCreateUser = (data) => {
   const schema = Joi.object({
     name: Joi.string().min(2).max(150).required(),
     email: Joi.string().min(2).max(200).email().required(),
     password: Joi.string().min(3).max(150).required(),
+    role: Joi.string().valid("admin", "user", "superadmin"),
+  });
+  return schema.validate(data);
+};
+
+/**
+ * Validate user data for editing an existing drink
+ * @param {Object} data - The User data to validate
+ * @returns {Object} - The validation result
+ */
+const validateEditUser = (data) => {
+  const schema = Joi.object({
+    name: Joi.string().min(2).max(150),
+    email: Joi.string().min(2).max(200).email(),
+    password: Joi.string().min(3).max(150),
     role: Joi.string().valid("admin", "user", "superadmin"),
   });
   return schema.validate(data);
@@ -151,6 +170,7 @@ const UserModel = mongoose.model("users", userSchema);
 
 module.exports = {
   UserModel,
-  validateUser,
+  validateCreateUser,
+  validateEditUser,
   validateLogin,
 };

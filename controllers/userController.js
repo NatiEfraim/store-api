@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const { UserModel, validateUser } = require("../models/userModel");
+const { UserModel, validateCreateUser, validateEditUser} = require("../models/userModel");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { UserRoles } = require("../utils/enums");
 
@@ -54,7 +54,7 @@ const createUser = async (req, res) => {
 
   try {
 
-    const {error} = validateUser(req.body);
+    const {error} = validateCreateUser(req.body);
 
     if (error) {
 
@@ -84,6 +84,54 @@ const createUser = async (req, res) => {
   }
 };
 
+/**
+ * Update user details
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const updateUser = async (req, res) => {
+
+
+  try {
+
+    const { id } = req.params; 
+
+    if (id==null) {
+      
+      return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Need to provide id" });
+    }
+    
+    const authUser = req.tokenData; 
+    console.log("msg from updateUser: ",authUser);
+    
+    const { error } = validateEditUser(req.body);
+    if (error) {
+      return res.status(StatusCodes.BAD_REQUEST).json({ msg: error.details[0].message });
+    }
+
+    if (authUser.role !== "admin" && authUser.role !== "superadmin") {
+      if (authUser._id !== id) {
+        return res.status(StatusCodes.FORBIDDEN).json({ msg: "You can only update your own details" });
+      }
+    }
+
+   const updatedUser= await UserModel.findByIdAndUpdate(
+      id,
+      { $set: req.body }, // Update only the fields provided in the request body
+      { new: true, runValidators: true } // Return the updated document and validate the changes
+    );
+
+    if (!updatedUser) {
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
+    }
+
+
+    res.status(StatusCodes.OK).json({ msg: "User updated successfully" });
+  } catch (err) {
+    console.error("Error from updateUser function:", err.message);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
+  }
+};
 
 
 
@@ -259,5 +307,6 @@ module.exports = {
   deleteUser,
   getRoleAdmin,
   getRoleUser,
+  updateUser, 
 };
 
