@@ -172,7 +172,7 @@ router.get("/checkToken", auth, decodeToken);
  *         description: Internal server error
  */
 
-router.get("/userInfo", auth, fetchUserInfo);
+router.get("/user", auth, fetchUserInfo);
 
 
 

@@ -20,10 +20,10 @@ const fetchUserDetails = async (req, res) => {
       
         if (user.error) {
           return res.status(StatusCodes.BAD_REQUEST)
-          .json({msg:"User not exsit in the system"}); // Return error if user is not found
+          .json({msg:"User not exsit in the system"}); 
         }
       
-        res.status(StatusCodes.OK).json({data:user}); // Return user data
+        res.status(StatusCodes.OK).json({data:user}); 
     } catch (error) {
         console.error("Error from fetchUserDetails function:", err.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR)
@@ -86,7 +86,7 @@ const getProductById = async (req, res) => {
  * @param {Object} res - Express response object
  */
 const getProductByUserId = async (req, res) => {
-  const { user_id } = req.params; // Extract user_id from the request parameters
+  const { user_id } = req.params; 
 
   try {
     // Find all products that match the given user_id
@@ -97,7 +97,7 @@ const getProductByUserId = async (req, res) => {
       .json({ msg: "No products found for this user." });
     }
 
-    res.status(StatusCodes.OK).json({data:products}); // Return the list of products
+    res.status(StatusCodes.OK).json({data:products}); 
   } catch (err) {
     console.error("Error from getProductsByUserId function:", err.message);
     res.status(StatusCodes.OK)

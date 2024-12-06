@@ -100,14 +100,14 @@ const createDrink = async (req, res) => {
         return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
         .json({ msg: error.details[0].message });
       }
-    // Get the authenticated user's ID
+
     const userData = getAuthenticatedUser(req);
-    const {_id,role} =userData;//destruct what needed.
+    const {_id,role} =userData;
     if (!_id) {
       return res.status(StatusCodes.UNAUTHORIZED)
       .json({ msg: "User not authenticated" });
     }
-            // Create a new drink with the authenticated user's id
+         
     const newDrink = new DrinkModel({ ...req.body, user_id: _id });
       await newDrink.save();
   
@@ -129,12 +129,10 @@ const createDrink = async (req, res) => {
  */
 const deleteById = async (req, res) => {
 
-
-
     try {
 
-
       const { id } = req.params;
+
       const deletedDrink = await DrinkModel.findByIdAndDelete(id);
   
       if (!deletedDrink) {
@@ -159,12 +157,11 @@ const deleteById = async (req, res) => {
 const getDrinksByUserId = async (req, res) => {
 
 
-  const { user_id } = req.params; // Extract user_id from the request parameters
-
+  
   try {
+    
+    const { user_id } = req.params; 
 
-
-    // Find all drinks that match the given user_id
     const drinks = await DrinkModel.find({ user_id });
 
     if (!drinks.length) {

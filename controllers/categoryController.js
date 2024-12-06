@@ -1,10 +1,6 @@
 const {CategoryModel,validateCategory,validateEditCategory} = require("../models/categoryModel");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
-
-
-
-
   /**
  * Retrecived all categories records
  * @param {Object} req - Express request object
@@ -50,7 +46,6 @@ const createCategory = async (req, res) => {
 
     const {error} = validateCategory(req.body);
   
-    // Validate the incoming request body
     if (error) {
       console.log("msg from createCategory :", error.details[0].message);
 
@@ -61,12 +56,10 @@ const createCategory = async (req, res) => {
     const category = new CategoryModel(req.body);
     await category.save();
 
-    // Send a success response
     res.json({ msg: "Category saved successfully in the system." }).status(StatusCodes.OK);
   } catch (err) {
     console.error("Error from createCategory function:", err.message);
 
-    // Send an error response in case of failure
     res.json({ msg: "Internal Server Error" })
     .status(StatusCodes.INTERNAL_SERVER_ERROR);
   }

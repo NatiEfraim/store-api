@@ -102,7 +102,6 @@ const updateUser = async (req, res) => {
     }
     
     const authUser = req.tokenData; 
-    console.log("msg from updateUser: ",authUser);
     
     const { error } = validateEditUser(req.body);
     if (error) {
@@ -248,10 +247,9 @@ const changeRole = async (req, res) => {
       res.json({data:user}).status(StatusCodes.OK);
   
     }
+    
     catch (err) {
-  
       console.error("error from fetchUserInfo function:", err.message);
-      
       res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" }); 
     }
 };
