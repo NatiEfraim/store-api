@@ -43,6 +43,57 @@ router.get("/", async (req, res) => {
   }
 })
 
+
+/**
+ * @swagger
+ * /users/index:
+ *   get:
+ *     summary: Retrieve a list of all users
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Add this if your API uses JWT authentication
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the list of users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                     description: User ID
+ *                   name:
+ *                     type: string
+ *                     description: User's name
+ *                   email:
+ *                     type: string
+ *                     description: User's email
+ *                   role:
+ *                     type: string
+ *                     description: User's role (e.g., admin, user, superadmin)
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                     description: User creation timestamp
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *                     description: Last update timestamp
+ *       401:
+ *         description: Unauthorized, admin access required
+ *       500:
+ *         description: Internal server error
+ */
+
+router.get("/index", auth, getUsersList);
+
+
+
+
+
 /**
  * @swagger
  * /users/checkToken:
@@ -123,6 +174,115 @@ router.get("/checkToken", auth, decodeToken);
 
 router.get("/userInfo", auth, fetchUserInfo);
 
+
+
+/**
+ * @swagger
+ * /users/role/admins:
+ *   get:
+ *     summary: Get all users with the admin role
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Optional if JWT authentication is used
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all admins
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: User ID
+ *                         example: 644f7a80fcc370fd6cba1df6
+ *                       name:
+ *                         type: string
+ *                         description: Name of the admin
+ *                         example: "Admin Name"
+ *                       email:
+ *                         type: string
+ *                         description: Email of the admin
+ *                         example: "admin@example.com"
+ *                       role:
+ *                         type: string
+ *                         description: Role of the user
+ *                         example: "admin"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+
+router.get("/role/admins", authAdmin, getRoleAdmin);
+
+
+
+
+/**
+ * @swagger
+ * /users/role/users:
+ *   get:
+ *     summary: Get all users with the user role
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # Optional if JWT authentication is used
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all users
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: array
+ *                   items:
+ *                     type: object
+ *                     properties:
+ *                       _id:
+ *                         type: string
+ *                         description: User ID
+ *                         example: 644f7a80fcc370fd6cba1df6
+ *                       name:
+ *                         type: string
+ *                         description: Name of the user
+ *                         example: "User Name"
+ *                       email:
+ *                         type: string
+ *                         description: Email of the user
+ *                         example: "user@example.com"
+ *                       role:
+ *                         type: string
+ *                         description: Role of the user
+ *                         example: "user"
+ *       500:
+ *         description: Internal Server Error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   example: Internal Server Error
+ */
+
+router.get("/role/users", authAdmin, getRoleUser);
+
+
+
 /**
  * @swagger
  * /users/{id}:
@@ -192,57 +352,6 @@ router.get("/userInfo", auth, fetchUserInfo);
  */
 
 router.get("/:id", auth, getUserById);
-
-/**
- * @swagger
- * /users/role/admins:
- *   get:
- *     summary: Get all users with the admin role
- *     tags: [User]
- *     security:
- *       - bearerAuth: [] # Optional if JWT authentication is used
- *     responses:
- *       200:
- *         description: Successfully retrieved all admins
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                         description: User ID
- *                         example: 644f7a80fcc370fd6cba1df6
- *                       name:
- *                         type: string
- *                         description: Name of the admin
- *                         example: "Admin Name"
- *                       email:
- *                         type: string
- *                         description: Email of the admin
- *                         example: "admin@example.com"
- *                       role:
- *                         type: string
- *                         description: Role of the user
- *                         example: "admin"
- *       500:
- *         description: Internal Server Error
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 msg:
- *                   type: string
- *                   example: Internal Server Error
- */
-
-router.get("/role/admins", authAdmin, getRoleAdmin);
 
 /**
  * @swagger
@@ -329,46 +438,35 @@ router.get("/role/admins", authAdmin, getRoleAdmin);
 
 router.put("/:id", auth, updateUser);
 
-
 /**
  * @swagger
- * /users/role/users:
- *   get:
- *     summary: Get all users with the user role
+ * /users/changeRole/{id}:
+ *   put:
+ *     summary: Change the role of a user
  *     tags: [User]
  *     security:
- *       - bearerAuth: [] # Optional if JWT authentication is used
+ *       - bearerAuth: [] # Add this if your API uses JWT authentication
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The user ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               role:
+ *                 type: string
+ *                 description: The new role for the user
+ *                 example: admin
  *     responses:
  *       200:
- *         description: Successfully retrieved all users
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       _id:
- *                         type: string
- *                         description: User ID
- *                         example: 644f7a80fcc370fd6cba1df6
- *                       name:
- *                         type: string
- *                         description: Name of the user
- *                         example: "User Name"
- *                       email:
- *                         type: string
- *                         description: Email of the user
- *                         example: "user@example.com"
- *                       role:
- *                         type: string
- *                         description: Role of the user
- *                         example: "user"
- *       500:
- *         description: Internal Server Error
+ *         description: Successfully updated the user's role
  *         content:
  *           application/json:
  *             schema:
@@ -376,56 +474,46 @@ router.put("/:id", auth, updateUser);
  *               properties:
  *                 msg:
  *                   type: string
- *                   example: Internal Server Error
- */
-
-router.get("/role/users", authAdmin, getRoleUser);
-
-/**
- * @swagger
- * /users/index:
- *   get:
- *     summary: Retrieve a list of all users
- *     tags: [User]
- *     security:
- *       - bearerAuth: [] # Add this if your API uses JWT authentication
- *     responses:
- *       200:
- *         description: Successfully retrieved the list of users
- *         content:
- *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: string
- *                     description: User ID
- *                   name:
- *                     type: string
- *                     description: User's name
- *                   email:
- *                     type: string
- *                     description: User's email
- *                   role:
- *                     type: string
- *                     description: User's role (e.g., admin, user, superadmin)
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                     description: User creation timestamp
- *                   updatedAt:
- *                     type: string
- *                     format: date-time
- *                     description: Last update timestamp
+ *                   description: Status message
+ *                   example: Role updated successfully
+ *                 user:
+ *                   type: object
+ *                   properties:
+ *                     _id:
+ *                       type: string
+ *                       description: The user ID
+ *                     name:
+ *                       type: string
+ *                       description: The name of the user
+ *                     email:
+ *                       type: string
+ *                       description: The email of the user
+ *                     role:
+ *                       type: string
+ *                       description: The updated role of the user
+ *                     createdAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: The creation timestamp
+ *                     updatedAt:
+ *                       type: string
+ *                       format: date-time
+ *                       description: The last update timestamp
+ *       400:
+ *         description: Bad request, invalid input
  *       401:
- *         description: Unauthorized, admin access required
+ *         description: Unauthorized, cannot change your own role
+ *       404:
+ *         description: User not found
  *       500:
  *         description: Internal server error
  */
 
-router.get("/index", auth, getUsersList);
+
+router.put("/changeRole/:id", authAdmin, changeRole);
+
+
+
 
 /**
  * @swagger
@@ -681,79 +769,7 @@ router.post("/signup", signUpUser);
 
 router.post("/logout",auth, logoutUser);
 
-/**
- * @swagger
- * /users/changeRole/{id}:
- *   put:
- *     summary: Change the role of a user
- *     tags: [User]
- *     security:
- *       - bearerAuth: [] # Add this if your API uses JWT authentication
- *     parameters:
- *       - in: path
- *         name: id
- *         schema:
- *           type: string
- *         required: true
- *         description: The user ID
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               role:
- *                 type: string
- *                 description: The new role for the user
- *                 example: admin
- *     responses:
- *       200:
- *         description: Successfully updated the user's role
- *         content:
- *           application/json:
- *             schema:
- *               type: object
- *               properties:
- *                 msg:
- *                   type: string
- *                   description: Status message
- *                   example: Role updated successfully
- *                 user:
- *                   type: object
- *                   properties:
- *                     _id:
- *                       type: string
- *                       description: The user ID
- *                     name:
- *                       type: string
- *                       description: The name of the user
- *                     email:
- *                       type: string
- *                       description: The email of the user
- *                     role:
- *                       type: string
- *                       description: The updated role of the user
- *                     createdAt:
- *                       type: string
- *                       format: date-time
- *                       description: The creation timestamp
- *                     updatedAt:
- *                       type: string
- *                       format: date-time
- *                       description: The last update timestamp
- *       400:
- *         description: Bad request, invalid input
- *       401:
- *         description: Unauthorized, cannot change your own role
- *       404:
- *         description: User not found
- *       500:
- *         description: Internal server error
- */
 
-
-router.put("/changeRole/:id", authAdmin, changeRole);
 
 
 /**
