@@ -5,7 +5,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 
   /**
- * // Middleware for authenticating users via token stored in cookies
+ *  Middleware for authenticating users via token stored in cookies
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
@@ -15,7 +15,7 @@ const auth = (req, res, next) => {
 
   try {
 
-    const token = req.cookies.access_token; // Retrieve token from cookies
+    const token = req.cookies.access_token;
 
     if (!token) {
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
@@ -23,13 +23,13 @@ const auth = (req, res, next) => {
     }
 
     const decodeToken = jwt.verify(token, config.TOKEN_SECRET); // Verify token
-    req.tokenData = decodeToken; // Attach decoded token data to request
+    req.tokenData = decodeToken; 
     
-    next(); // Proceed to the next middleware/handler
+    next(); 
   } catch (err) {
     console.error("Error from auth function :", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    .json({ msg: "Internal Server Error" });
   }
 };
 
@@ -44,7 +44,7 @@ const authAdmin = (req, res, next) => {
   
   try {
 
-    const token = req.cookies.access_token; // Retrieve token from cookies
+    const token = req.cookies.access_token; 
     
     if (!token) {
       return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
@@ -56,18 +56,18 @@ const authAdmin = (req, res, next) => {
       return res.status(StatusCodes.FORBIDDEN)
       .json({ msg: "You must be an admin to access this endpoint" });
     }
-    req.tokenData = decodeToken; // Attach decoded token data to request
+    req.tokenData = decodeToken; 
     next(); // Proceed to the next middleware/handler
   } catch (err) {
     console.error("Error from authAdmin function :", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    .json({ msg: "Internal Server Error" }); 
 
   }
 };
 
   /**
- * // Function to get the authenticated user's ID
+ * Function to get the authenticated user's ID
  * @param {Object} req - Express request object
  * @returns {Object|null}
  */
@@ -80,18 +80,15 @@ const getAuthenticatedUser = (req) => {
 
 
     if (!req.tokenData || !req.tokenData._id) {
-      // throw new Error("User not authenticated");
       return res.status(StatusCodes.UNAUTHORIZED)
       .json({ msg: "User not authenticated" });
-      // return null;
     }
-    return req.tokenData; // Return the authenticated user's ID
+    return req.tokenData; 
     
   } catch (err) {
     console.error("Error from getAuthenticatedUser funcion:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); // Handle error with a proper response
-    // return null; // Return null if authentication fails
+    .json({ msg: "Internal Server Error" });
   }
 };
 
