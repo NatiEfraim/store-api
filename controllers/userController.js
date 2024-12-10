@@ -297,9 +297,7 @@ const getUserById = async (req, res) => {
 
   try {
 
-    const { id } = req.params; 
-
-    const user = await UserModel.findById(id, { password: 0 }); 
+    const user = await UserModel.findById(req.params.id);
 
     if (!user) {
       return res.status(StatusCodes.NOT_FOUND).json({ msg: "User not found" });
