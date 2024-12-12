@@ -13,7 +13,8 @@
   },
   "__v": 0,
   "role": "superadmin"
-},{
+},
+{
   "_id": {
     "$oid": "644f7a80fcc370fd6cba1df6"
   },
@@ -28,7 +29,8 @@
   },
   "__v": 0,
   "role": "admin"
-},{
+},
+{
   "_id": {
     "$oid": "644f7b0cfcc370fd6cba1dfc"
   },
@@ -42,7 +44,8 @@
     "$date": "2023-05-01T08:40:44.124Z"
   },
   "__v": 0
-},{
+},
+{
   "_id": {
     "$oid": "6450fc15d90c6f0258a3dcc4"
   },
@@ -56,7 +59,8 @@
     "$date": "2023-05-02T12:03:33.452Z"
   },
   "__v": 0
-},{
+},
+{
   "_id": {
     "$oid": "645102fd95ab3f394530bfc6"
   },
@@ -70,7 +74,8 @@
     "$date": "2023-05-02T12:33:02.041Z"
   },
   "__v": 0
-},{
+},
+{
   "_id": {
     "$oid": "64589ac9ebef1ffc1bb34fd9"
   },
@@ -84,7 +89,8 @@
     "$date": "2023-05-08T06:46:33.515Z"
   },
   "__v": 0
-},{
+},
+{
   "_id": {
     "$oid": "64589d1aca97da9b305f4cd0"
   },
@@ -103,7 +109,8 @@
     "6461fa35cc5ac31e68c4757f",
     "6461fa40cc5ac31e68c47581"
   ]
-},{
+},
+{
   "_id": {
     "$oid": "64621479500b15a120260621"
   },
@@ -120,6 +127,74 @@
   },
   "updatedAt": {
     "$date": "2023-05-15T12:00:31.033Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672dfc875efc990f8f968154"
+  },
+  "name": "Haim Shafir",
+  "email": "haim@gmail.com",
+  "password": "$2b$10$9RMCnWbjIjz00tN2zQfUR.qWc1BCqSYM0LCXI7.kuVAgDxse/1Xom",
+  "role": "admin",
+  "favs_ar": [],
+  "createdAt": {
+    "$date": "2024-11-08T11:56:55.453Z"
+  },
+  "updatedAt": {
+    "$date": "2024-11-12T18:45:42.053Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "672dfcc85efc990f8f968156"
+  },
+  "name": "Ofir Nave",
+  "email": "ofir@gmail.com",
+  "password": "$2b$10$xdhXXCwxw/4H5tHijoAb8OhHt4FpLla5fF6CHab1YupylQGBZw.z6",
+  "role": "superadmin",
+  "favs_ar": [],
+  "createdAt": {
+    "$date": "2024-11-08T11:58:00.446Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-05T18:16:37.554Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "675afb604a63ec5f630e2e42"
+  },
+  "name": "Nati Efraim",
+  "email": "nati@gmail.com",
+  "password": "$2b$10$d/GLX7xbvu7CzfdlxahZS.ZQAUxrc.mWKGrD6IfVmBSQtUwHiJx9K",
+  "role": "superadmin",
+  "favs_ar": [],
+  "createdAt": {
+    "$date": "2024-12-12T15:04:00.126Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-12T15:04:00.126Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "675afb714a63ec5f630e2e44"
+  },
+  "name": "Shay Bronner",
+  "email": "shay@gmail.com",
+  "password": "$2b$10$ScWyQD/eYEUkKfhMYYlkvOqYmbL6hLW1cT/ljSe/Dqwq48z7Y6.0S",
+  "role": "superadmin",
+  "favs_ar": [],
+  "createdAt": {
+    "$date": "2024-12-12T15:04:17.730Z"
+  },
+  "updatedAt": {
+    "$date": "2024-12-12T15:04:17.730Z"
   },
   "__v": 0
 }]
