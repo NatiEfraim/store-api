@@ -52,7 +52,7 @@ const {formatDate} =require("../utils/dateUtils");
 const fetchDrinkById = async (req, res) => {
 
     try {
-      
+
       const { id } = req.params;
 
       // Fetch the drink by ID
@@ -114,7 +114,7 @@ const editDrink = async (req, res) => {
       }
   
       res.status(StatusCodes.OK)
-      .json({msg:"category updated successful"});
+      .json({msg:"Drink updated successful"});
       
     } catch (err) {
       console.error("Error from editDrink function:", err.message);
@@ -199,16 +199,23 @@ const getDrinksByUserId = async (req, res) => {
   
   try {
     
-    const { user_id } = req.params; 
+     const { user_id } = req.params; // Extract user_id from the route parameters
 
-    const drinks = await DrinkModel.find({ user_id });
+    // Fetch drinks associated with the given user_id
+    const drinks = await DrinkModel.find({ user_id:user_id });
 
     if (!drinks.length) {
-      return res.status(StatusCodes.NOT_FOUND)
-      .json({ msg: "No drinks found for this user." });
+      return res.status(StatusCodes.NOT_FOUND).json({ msg: "No drinks found for this user" });
     }
 
-    res.status(StatusCodes.OK).json({msg:drinks}); // Return the list of drinks
+    // Format the response
+    const formattedDrinks = drinks.map((drink) => ({
+      ...drink._doc, // Include the drink data
+      createdAt: formatDate(drink.createdAt), // Format createdAt
+      updatedAt: formatDate(drink.updatedAt), // Format updatedAt
+    }));
+
+    res.status(StatusCodes.OK).json({ data: formattedDrinks });
   } catch (err) {
     console.error("Error from getDrinksByUserId function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
