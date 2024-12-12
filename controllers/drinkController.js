@@ -1,6 +1,8 @@
 const { DrinkModel, validateCreateDrink, validateEditDrink } = require("../models/drinkModel");
 const { getAuthenticatedUser } = require("../middlewares/auth");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
+const {getUserById} =require("../utils/userUtils");
+const {formatDate} =require("../utils/dateUtils");
 
   /**
  * Retrecived all drinks records
@@ -12,8 +14,28 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 
 
         try {
-            const drinks = await DrinkModel.find();
-            res.status(StatusCodes.OK).json({data:drinks});
+   // Fetch all drinks
+   const drinks = await DrinkModel.find();
+
+
+    // Enhance each drink with user details and formatted dates
+    const enhancedDrinks = await Promise.all(
+      drinks.map(async (drink) => {
+        const user = await getUserById(drink.user_id);
+        return {
+          ...drink._doc, // Include drink data
+          createdAt: formatDate(drink.createdAt), // Format createdAt
+          updatedAt: formatDate(drink.updatedAt), // Format updatedAt
+          user: user.error ? null : {
+            ...user._doc,
+            createdAt: formatDate(user.createdAt), // Format user's createdAt
+            updatedAt: formatDate(user.updatedAt), // Format user's updatedAt
+          }, // Attach user data or null if not found
+        };
+      })
+    );
+
+   res.status(StatusCodes.OK).json({ data: enhancedDrinks });
           } catch (err) {
             console.error("Error from fetchDrinkList function:", err.message);
             res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });

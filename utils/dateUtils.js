@@ -1,5 +1,5 @@
 // dateUtils.js
-export const formatTimestamp = (timestamp) => {
+ const formatTimestamp = (timestamp) => {
     const date = new Date(timestamp * 1000);
     return date.toLocaleString("en-US", {
       timeZone: "UTC",
@@ -11,3 +11,14 @@ export const formatTimestamp = (timestamp) => {
       second: "2-digit",
     });
   };
+
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleDateString("en-GB"); // Format as dd/mm/yy
+  };
+
+
+  module.exports = {
+    formatDate,
+    formatTimestamp,
+  };  
