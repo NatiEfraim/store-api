@@ -21,6 +21,7 @@ const loginUser = async (req, res) => {
 
     // Find the user by email
     const user = await UserModel.findOne({ email: req.body.email });
+    
     if (!user) {
       return res.status(StatusCodes.UNAUTHORIZED).json({ msg: ReasonPhrases.UNAUTHORIZED });
     }
@@ -35,14 +36,14 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(
       { _id: user._id, role: user.role },
       config.TOKEN_SECRET,
-      { expiresIn: "1h" }
+      { expiresIn: "200h" }
     );
 
     // Set the token in cookies
     res.cookie("access_token", token, {
       httpOnly: true, // Prevent access via JavaScript
       secure: process.env.NODE_ENV === "production", // Enable secure cookies in production
-      maxAge: 60 * 60 * 1000, // 1 hour
+      maxAge: 60 * 60 * 200000, // 1 hour
     });
 
     // Send a success response

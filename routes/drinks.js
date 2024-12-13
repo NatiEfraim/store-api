@@ -209,7 +209,7 @@ router.get("/:id",auth, fetchDrinkById);
  *       500:
  *         description: Internal server error
  */
-router.put("/:id",authAdmin, editDrink);
+router.put("/:id",auth, editDrink);
 
 
 /**
@@ -246,7 +246,7 @@ router.put("/:id",authAdmin, editDrink);
  *         description: Internal server error
  */
 
-router.post("/",authAdmin, createDrink);
+router.post("/",auth, createDrink);
 
 /**
  * @swagger
@@ -269,7 +269,7 @@ router.post("/",authAdmin, createDrink);
  *       500:
  *         description: Internal server error
  */
-router.delete("/:id", deleteById);
+router.delete("/:id", auth,deleteById);
 
 
 module.exports = router;

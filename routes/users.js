@@ -289,7 +289,7 @@ router.get("/role/users", authAdmin, getRoleUser);
  *   get:
  *     summary: Get user by ID
  *     tags:
- *       - Users
+ *       - User
  *     description: Retrieve a user's details by their unique ID. Excludes the password field in the response.
  *     parameters:
  *       - in: path
