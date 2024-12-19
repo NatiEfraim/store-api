@@ -1,8 +1,7 @@
-const bcrypt = require("bcrypt");
 const { UserModel, validateCreateUser, validateEditUser} = require("../models/userModel");
 const { StatusCodes, ReasonPhrases } = require("http-status-codes");
 const { UserRoles } = require("../utils/enums");
-
+const {getAuthenticatedUser} = require("../middlewares/auth");
 
 
 
@@ -18,6 +17,25 @@ const getRoleAdmin = async (req, res) => {
     const admins = await UserModel.find({ role: UserRoles.ADMIN }, 
       { password: 0,updatedAt:0,createdAt:0,favs_ar:0 });
     res.status(StatusCodes.OK).json({data:admins});
+  } catch (err) {
+    console.error("Error fetching getRoleAdmins:", err.message);
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
+  }
+};
+
+/**
+ * Get auth user data
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+
+
+const getRoleAuthUser = async (req, res) => {
+
+  try {
+    const {role}= getAuthenticatedUser(req);
+    
+    res.status(StatusCodes.OK).json({data:role});
   } catch (err) {
     console.error("Error fetching getRoleAdmins:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
@@ -324,5 +342,6 @@ module.exports = {
   getRoleUser,
   updateUser, 
   getUserById,
+  getRoleAuthUser,
 };
 

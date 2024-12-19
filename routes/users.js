@@ -10,7 +10,7 @@ getRoleAdmin,
 getRoleUser,
 updateUser,
 getUserById,
-
+getRoleAuthUser,
 } = require("../controllers/userController");
 const {loginUser,logoutUser,signUpUser} =require("../controllers/authController");
 const { auth, authAdmin } = require("../middlewares/auth");
@@ -89,6 +89,56 @@ router.get("/", async (req, res) => {
  */
 
 router.get("/index", auth, getUsersList);
+
+/**
+ * @swagger
+ * /users/auth-user:
+ *   get:
+ *     summary: Retrieve the role of the authenticated user
+ *     tags: [User]
+ *     security:
+ *       - bearerAuth: [] # JWT authentication required
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved the role of the authenticated user
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 data:
+ *                   type: string
+ *                   description: Role of the authenticated user (e.g., admin, user, superadmin)
+ *             example:
+ *               data: "admin"
+ *       401:
+ *         description: Unauthorized, authentication token is missing or invalid
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   description: Error message
+ *             example:
+ *               msg: "Unauthorized"
+ *       500:
+ *         description: Internal server error
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 msg:
+ *                   type: string
+ *                   description: Error message
+ *             example:
+ *               msg: "Internal Server Error"
+ */
+
+
+router.get("/auth-user",auth,getRoleAuthUser);
 
 
 
