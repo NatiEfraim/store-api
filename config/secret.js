@@ -8,11 +8,6 @@ exports.config = {
   TOKEN_SECRET: process.env.TOKEN_SECRET,
   DB_NAME: process.env.DB_NAME,
   USER_DB: process.env.USER_DB || "", // Default to empty string if not provided
-  PASS_DB: process.env.PASS_DB || "" , // Default to empty string if not provided
-  CLOUDINARY: {
-    CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    API_KEY: process.env.CLOUDINARY_API_KEY,
-    API_SECRET: process.env.CLOUDINARY_API_SECRET,
-  },
+  PASS_DB: process.env.PASS_DB || ""  // Default to empty string if not provided
 };
 
