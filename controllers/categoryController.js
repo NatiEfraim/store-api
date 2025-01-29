@@ -25,7 +25,7 @@ const { StatusCodes, ReasonPhrases } = require("http-status-codes");
       }
       catch(err){
         console.log("Error from fetchCategoriesList function:",err.message);
-        res.json({ msg: "Internal Server Error" })
+        res.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR  })
         .status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
            
@@ -60,7 +60,7 @@ const createCategory = async (req, res) => {
   } catch (err) {
     console.error("Error from createCategory function:", err.message);
 
-    res.json({ msg: "Internal Server Error" })
+    res.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR })
     .status(StatusCodes.INTERNAL_SERVER_ERROR);
   }
 };
@@ -102,7 +102,7 @@ const createCategory = async (req, res) => {
     catch(err){
 
       console.log("Error from editCategory function:",err.message);
-      res.json({ msg: "Internal Server Error" }).status(StatusCodes.OK);
+      res.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }).status(StatusCodes.OK);
     }
 
   };
@@ -133,7 +133,7 @@ const createCategory = async (req, res) => {
     }
       catch(err){
         console.log("Error from editCategory function:",err.message);
-        res.json({ msg: "Internal Server Error" })
+        res.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR })
         .status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
     

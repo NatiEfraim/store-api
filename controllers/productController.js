@@ -27,7 +27,7 @@ const fetchUserDetails = async (req, res) => {
     } catch (error) {
         console.error("Error from fetchUserDetails function:", err.message);
         res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ msg: "Internal Server Error" });
+        .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
     }
   
   };
@@ -75,7 +75,7 @@ const getProductById = async (req, res) => {
     res.status(StatusCodes.OK).json({data:product});
   } catch (err) {
     console.error("Error from getProductById function:", err.message);
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -101,7 +101,7 @@ const getProductByUserId = async (req, res) => {
   } catch (err) {
     console.error("Error from getProductsByUserId function:", err.message);
     res.status(StatusCodes.OK)
-    .json({ msg: "Internal Server Error" });
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -138,7 +138,7 @@ const createProduct = async (req, res) => {
     .json({ msg: "Product created successfully"});
   } catch (err) {
     console.error("Error from createProduct function:", err.message);
-    res.status(StatusCodes.OK).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.OK).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -179,7 +179,7 @@ const updateProduct = async (req, res) => {
     .json({ msg: "Product updated successfully", data: updatedProduct });
   } catch (err) {
     console.error("Error from updateProduct function:", err.message);
-    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.UNPROCESSABLE_ENTITY).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -207,7 +207,7 @@ const deleteProduct = async (req, res) => {
   } catch (err) {
     console.error("Error from deleteProduct function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" });
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 

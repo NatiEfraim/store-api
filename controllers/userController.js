@@ -19,7 +19,7 @@ const getRoleAdmin = async (req, res) => {
     res.status(StatusCodes.OK).json({data:admins});
   } catch (err) {
     console.error("Error fetching getRoleAdmins:", err.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -38,7 +38,7 @@ const getRoleAuthUser = async (req, res) => {
     res.status(StatusCodes.OK).json({data:role});
   } catch (err) {
     console.error("Error fetching getRoleAdmins:", err.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -59,7 +59,7 @@ const getRoleUser = async (req, res) => {
   } catch (err) {
     console.error("Error fetching getRoleUsers:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    msg.json({ error: "Internal Server Error" });
+    msg.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -97,7 +97,7 @@ const createUser = async (req, res) => {
   } catch (err) {
 
     console.error("error from createUser function:", err.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); // Handle error with a proper response
 
   }
 };
@@ -166,7 +166,7 @@ const decodeToken = async (req, res) => {
   } catch (err) {
 
     console.error("error from decodeToken function:", err.message);
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" }); // Handle error with a proper response
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); // Handle error with a proper response
 
   }
 };
@@ -219,7 +219,7 @@ const changeRole = async (req, res) => {
   } catch (err) {
     console.error("Error from changeUserRole function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); 
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); 
   }
 
 
@@ -244,7 +244,7 @@ const changeRole = async (req, res) => {
   } catch (err) {
     console.error("Error from getUsersList function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); 
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); 
   }
 };
 
@@ -268,7 +268,7 @@ const changeRole = async (req, res) => {
     
     catch (err) {
       console.error("error from fetchUserInfo function:", err.message);
-      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Internal Server Error" }); 
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); 
     }
 };
 
@@ -301,7 +301,7 @@ const deleteUser = async (req, res) => {
   } catch (err) {
     console.error("Error from deleteUser function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" }); 
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR }); 
   }
 };
   
@@ -326,7 +326,7 @@ const getUserById = async (req, res) => {
     console.error("Error from getUserById function:", err.message);
     res
       .status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Internal Server Error" });
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 

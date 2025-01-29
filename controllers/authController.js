@@ -70,7 +70,7 @@ const signUpUser = async (req, res) => {
 
     const { error } = validateCreateUser(req.body);
     if (error) {
-      return res.status(StatusCodes.BAD_REQUEST).json({ error: error.details[0].message });
+      return res.status(StatusCodes.BAD_REQUEST).json({ msg: error.details[0].message });
     }
   
     const { name, email, password, role } = req.body;
@@ -88,7 +88,7 @@ const signUpUser = async (req, res) => {
   } catch (err) {
     console.log("Error from authController signUpUser function: ", err.message);
     
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: "Internal Server Error" });
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
@@ -108,7 +108,7 @@ const logoutUser = (req, res) => {
       res.json({ msg: "Logout successful" });
     } catch (err) {
       console.error("Error from logout function:", err.message);
-      res.json({ msg: "Internal Server Error" }).status(500);
+      res.json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR  }).status(StatusCodes.INTERNAL_SERVER_ERROR);
     }
   };
 

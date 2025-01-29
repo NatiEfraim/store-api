@@ -119,7 +119,7 @@ const editDrink = async (req, res) => {
     } catch (err) {
       console.error("Error from editDrink function:", err.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Internal Server Error" });
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
     }
   };
   
@@ -154,7 +154,7 @@ const createDrink = async (req, res) => {
     } catch (err) {
       console.error("Error from createDrink function:", err.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Internal Server Error" });
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
     }
 
 
@@ -184,7 +184,7 @@ const deleteById = async (req, res) => {
     } catch (err) {
       console.error("Error from deleteById function:", err.message);
       res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-      .json({ msg: "Internal Server Error" });
+      .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR});
     }
   };
 
@@ -219,7 +219,7 @@ const getDrinksByUserId = async (req, res) => {
   } catch (err) {
     console.error("Error from getDrinksByUserId function:", err.message);
     res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    .json({ msg: "Internal Server Error" });
+    .json({ msg: ReasonPhrases.INTERNAL_SERVER_ERROR });
   }
 };
 
