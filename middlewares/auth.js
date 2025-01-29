@@ -18,7 +18,7 @@ const auth = (req, res, next) => {
     const token = req.cookies.access_token;
 
     if (!token) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      return res.status(StatusCodes.FORBIDDEN)
       .json({ msg: "You need to send a token in the cookies" });
     }
 
@@ -47,7 +47,7 @@ const authAdmin = (req, res, next) => {
     const token = req.cookies.access_token; 
     
     if (!token) {
-      return res.status(StatusCodes.UNPROCESSABLE_ENTITY)
+      return res.status(StatusCodes.FORBIDDEN)
       .json({ msg: "You need to send a token in the cookies" });
     }
 
@@ -80,7 +80,7 @@ const getAuthenticatedUser = (req) => {
 
 
     if (!req.tokenData || !req.tokenData._id) {
-      return res.status(StatusCodes.UNAUTHORIZED)
+      return res.status(StatusCodes.FORBIDDEN)
       .json({ msg: "User not authenticated" });
     }
     return req.tokenData; 
