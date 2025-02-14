@@ -86,7 +86,7 @@ const fetchDrinkById = async (req, res) => {
   };
 
   /**
- * Edit exsist drink record in storage.
+ * Edit exist drink record in storage.
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */

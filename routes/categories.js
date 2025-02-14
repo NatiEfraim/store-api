@@ -3,7 +3,8 @@ const {CategoryModel,validateCategory} = require("../models/categoryModel");
 const {fetchCategoriesList,
   createCategory,
   editCategory,
-  deleteById
+  deleteById,
+  fetchCategoryById
 } =require("../controllers/categoryController");
 const { authAdmin,auth } = require("../middlewares/auth");
 const router = express.Router();
@@ -120,6 +121,28 @@ router.get("/", async (req, res) => {
 
 router.get("/index",auth,fetchCategoriesList);
 
+/**
+ * @swagger
+ * /categories/{id}:
+ *   get:
+ *     summary: Fetch a category by ID
+ *     tags: [Category]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: The ID of the category to fetch
+ *     responses:
+ *       200:
+ *         description: Successfully fetched the category
+ *       404:
+ *         description: Category not found
+ *       500:
+ *         description: Internal server error
+ */
+router.get("/:id",auth, fetchCategoryById);
 
 /**
  * @swagger

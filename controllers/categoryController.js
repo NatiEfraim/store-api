@@ -67,7 +67,7 @@ const createCategory = async (req, res) => {
 
 
   /**
- * Edit exsist drink record in storage.
+ * Edit exist category record in storage.
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
@@ -108,7 +108,7 @@ const createCategory = async (req, res) => {
   };
   
   /**
- * create drink record in storage.
+ * create category record in storage.
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
  */
@@ -139,10 +139,36 @@ const createCategory = async (req, res) => {
     
   };
 
+ /**
+ * Fetch category record by id.
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ */
+const fetchCategoryById = async (req, res) => {
+
+    try {
+
+      const { id } = req.params;
+
+      // Fetch the category by ID
+      const category = await CategoryModel.findById(id);
+  
+      if (!category) {
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "category not found" });
+      }
+  
+      res.status(StatusCodes.OK).json({ data: category });
+    } catch (err) {
+      console.error("Error from fetchCategoryById function:", err.message);
+      res.status(StatusCodes.INTERNAL_SERVER_ERROR)
+      .json({ msg: "Internal Server Error" });
+    }
+  };
 
 module.exports = {
     fetchCategoriesList,
     createCategory,
     editCategory,
     deleteById,
+    fetchCategoryById
   };
